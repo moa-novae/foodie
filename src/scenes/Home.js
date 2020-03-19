@@ -45,18 +45,19 @@ export function Home({ navigation }) {
 
   //modify header of react navigation
   //done here to have correct this context and interact with home scene
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Icon
-          style={{ width: 50, height: 50 }}
-          name="list-ul"
-          type="FontAwesome5"
-          onPress={() => alert("Placeholder")}
-        />
-      )
-    });
-  }, [navigation]);
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => (
+  //         <Icon
+  //           style={{ marginLeft: 10, marginRight: 10, fontSize: 30 }}
+  //           name="list-ul"
+  //           type="FontAwesome5"
+  //           onPress={() => alert("Placeholder")}
+  //         />
+  //     )
+  //   });
+  // }, [navigation]);
+
   return (
     <Container>
       <Content>
