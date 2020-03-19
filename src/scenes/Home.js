@@ -37,7 +37,7 @@ const testTags = [
   "Morning"
 ];
 
-export function Home({ navigation }) {
+export default function Home({ navigation }) {
   const categoriesList = testArr.map((category, index) => (
     <ListBody key={index} text={category.name} icon={category.icon} />
   ));

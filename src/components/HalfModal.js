@@ -1,14 +1,42 @@
 import React from "react";
-import {View, Text, Button} from 'react-native'
+import {
+  View,
+  Text,
+  Button,
+  Item,
+  InputAccessoryView,
+  Icon,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from "react-native";
 
 export default function HalfModal({ navigation }) {
   return (
-    <View style={{ flex: 1 ,flexDirection: 'column', justifyContent: 'flex-end'}}>
-      <View style={{ height: "50%" ,width: '100%', backgroundColor:"#fff", justifyContent:"center"}}>
-
-      <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-      <Button onPress={() => navigation.goBack()} title="Dismiss" />
-      </View>
-    </View>
+    <TouchableOpacity
+      style={{
+        height: "100%",
+        width: "100%",
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        opacity: 0.9
+      }}
+      activeOpacity={1}
+      onPressOut={() => {
+        navigation.goBack();
+      }}
+    >
+      <TouchableWithoutFeedback>
+        <View
+          style={{
+            height: "50%",
+            width: "100%",
+            backgroundColor: "#fff",
+            justifyContent: "center"
+          }}
+        >
+        </View>
+      </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 }

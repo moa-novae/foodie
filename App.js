@@ -1,6 +1,5 @@
 import React, { Component, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { Root } from "native-base";
 import * as Font from "expo-font";
 import HomeNav from "./src/navigations/homeStack";
 
@@ -8,7 +7,7 @@ export default class Login extends Component {
   state = {
     isReady: false
   };
-
+  //Making sure custom fonts load first, preventing error
   componentDidMount = async () => {
     await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -21,10 +20,6 @@ export default class Login extends Component {
     if (!this.state.isReady) {
       return <ActivityIndicator />;
     }
-    return (
-      <Root>
-        <HomeNav />
-      </Root>
-    );
+    return <HomeNav />;
   }
 }

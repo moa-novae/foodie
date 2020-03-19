@@ -3,7 +3,7 @@ import React from 'react';
 import ReactNative from 'react-native';
 import { StyleSheet, View } from 'react-native';
 
-export function Category() {
+export default function Category() {
   return (
     <Container>
       <Content>
