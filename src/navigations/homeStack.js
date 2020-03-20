@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Icon } from "native-base";
 import Category from "../scenes/Category";
 import Home from "../scenes/Home";
-import HalfModal from "../components/HalfModal";
+import HalfModal from "../scenes/HalfModal";
 
 const Stack = createStackNavigator();
 function LogoTitle() {
