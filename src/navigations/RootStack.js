@@ -1,5 +1,8 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets
+} from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
 import Category from "../scenes/Category";
@@ -34,7 +37,6 @@ export default function Nav() {
           cardOverlayEnabled: true,
           cardStyleInterpolator: ({ current: { progress } }) => fadeIn(progress)
         }}
-        mode="modal"
         headerMode="screen"
         initialRouteName="Home"
       >

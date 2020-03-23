@@ -1,5 +1,8 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets
+} from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "../scenes/Home";
 import { Icon } from "native-base";
@@ -16,11 +19,10 @@ function LogoTitle() {
 }
 export default function HomeStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator mode="modal">
       <Stack.Screen
         name="Home"
         component={Home}
-        mode='card'
         options={({ navigation, route }) => ({
           headerTitle: props => <LogoTitle />,
           headerRight: () => (
@@ -33,7 +35,11 @@ export default function HomeStack() {
           )
         })}
       />
-      <Stack.Screen name="Category" component={Category} />
+      <Stack.Screen
+        name="Category"
+        component={Category}
+        options={{ ...TransitionPresets.SlideFromRightIOS }}
+      />
     </Stack.Navigator>
   );
 }
