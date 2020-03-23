@@ -1,23 +1,15 @@
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { Container, Card, CardItem, Body, Content, Text } from 'native-base';
 import React from 'react';
 import ReactNative from 'react-native';
 import { StyleSheet, View } from 'react-native';
+import ItemCard from '../components/CardItem'
 
 export default function Category() {
   return (
     <Container>
       <Content>
-        <Text>
-          This is Category
-      </Text>
+      <Text>Hello</Text>
       </Content>
-      <Footer>
-        <FooterTab>
-          <Button full>
-            <Text>Footer</Text>
-          </Button>
-        </FooterTab>
-      </Footer>
     </Container>
   );
 }

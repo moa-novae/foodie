@@ -16,7 +16,7 @@ import { StyleSheet, View } from "react-native";
 
 export default function CardHeader(props) {
   return (
-    <ListItem icon>
+    <ListItem button icon onPress={()=>props.navigation.navigate('Category')}>
       <Left>
       <Icon active name={props.icon} type="FontAwesome5"/>
       </Left>

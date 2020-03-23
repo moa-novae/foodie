@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import * as Font from "expo-font";
-import HomeNav from "./src/navigations/homeStack";
+import RootNav from "./src/navigations/RootStack";
 
 export default class Login extends Component {
   state = {
@@ -20,6 +20,6 @@ export default class Login extends Component {
     if (!this.state.isReady) {
       return <ActivityIndicator />;
     }
-    return <HomeNav />;
+    return <RootNav />;
   }
 }
