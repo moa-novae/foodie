@@ -29,7 +29,12 @@ const meals = ["Dinner", "Lunch", "Breakfast"];
 
 export default function Home({ navigation }) {
   const categoriesList = testArr.map((category, index) => (
-    <ListBody key={index} text={category.name} icon={category.icon} navigation={navigation} />
+    <ListBody
+      key={index}
+      text={category.name}
+      icon={category.icon}
+      navigation={navigation}
+    />
   ));
   return (
     <Container>

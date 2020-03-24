@@ -1,14 +1,15 @@
-import { Container, Card, CardItem, Body, Content, Text } from 'native-base';
-import React from 'react';
-import ReactNative from 'react-native';
-import { StyleSheet, View } from 'react-native';
-import ItemCard from '../components/CardItem'
+import { Container, Card, CardItem, Body, Content, Text } from "native-base";
+import React from "react";
+import ReactNative from "react-native";
+import { StyleSheet, View } from "react-native";
+import ItemCard from "../components/CardItem";
 
-export default function Category() {
+export default function Category({ route }) {
+  const { categoryItems } = route.params;
   return (
     <Container>
       <Content>
-      <Text>Hello</Text>
+        <Text>{JSON.stringify(categoryItems)}</Text>
       </Content>
     </Container>
   );
@@ -17,8 +18,8 @@ export default function Category() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });

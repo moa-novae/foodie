@@ -5,7 +5,8 @@ export default function(props) {
     <Card>
       <CardItem>
         <Body>
-          <Text>props.name</Text>
+          <Text>{props.name}</Text>
+          <Text></Text>
         </Body>
       </CardItem>
     </Card>
