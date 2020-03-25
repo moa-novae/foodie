@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
     />
   ));
   return (
-    <Container>
+    <Container style={{backgroundColor: '#596475'}}>
       <Content>
         <List>
           <ListHeader text="Food" />

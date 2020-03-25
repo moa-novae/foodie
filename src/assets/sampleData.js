@@ -12,9 +12,9 @@ export const data = {
     tags: ["cocktail", "evening", "drinks", "citrus"]
   },
   whiskey_sour: {
-    name: "old_fashioned",
+    name: "whiskey_sour",
     rating: 5,
     ingredients: ["whiskey", "lemon juice", "sugar"],
-    tags: ["fast", "cocktail", "evening", "citrus"]
+    tags: ["fast", "cocktail", "evening", "citrus", 'drinks']
   }
 };

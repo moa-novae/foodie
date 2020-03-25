@@ -2,14 +2,18 @@ import { Container, Card, CardItem, Body, Content, Text } from "native-base";
 import React from "react";
 import ReactNative from "react-native";
 import { StyleSheet, View } from "react-native";
-import ItemCard from "../components/CardItem";
+import DisplayCard from "../components/DisplayCard";
 
 export default function Category({ route }) {
   const { categoryItems } = route.params;
+  const Cards = [];
+  for (let [key, value] of Object.entries(categoryItems)) {
+    Cards.push(<DisplayCard name={value.name} key={key}/>);
+  }
   return (
     <Container>
       <Content>
-        <Text>{JSON.stringify(categoryItems)}</Text>
+        {Cards}
       </Content>
     </Container>
   );

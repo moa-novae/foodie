@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Category from "../scenes/Category";
 import HomeStack from "./HomeStack";
 import HalfModal from "../scenes/HalfModal";
+import {theme} from '../styles/theme'
 
 const Stack = createStackNavigator();
 
@@ -28,9 +29,11 @@ const fadeIn = progress => ({
   }
 });
 
+
+
 export default function Nav() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <Stack.Navigator
         screenOptions={{
           cardStyle: { backgroundColor: "transparent" },
