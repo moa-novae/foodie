@@ -5,6 +5,7 @@ import { StyleSheet, View } from "react-native";
 import ListHeader from "../components/ListHeader";
 import ListBody from "../components/ListBody";
 import Tag from "../components/Tag";
+import NewButton from "../components/NewButton";
 
 const testArr = [
   { name: "Food", icon: "utensils" },
@@ -29,24 +30,7 @@ export default function Home({ navigation }) {
           {categoriesList}
         </List>
       </Content>
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#1f2232",
-          borderWidth: 1,
-          borderColor: "white",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 70,
-          height: 70,
-          borderRadius: 70,
-          position: "absolute",
-          bottom: 20,
-          right: 20
-        }}
-        onPress={() => navigation.navigate("CreateNew")}
-      >
-        <Icon name="plus" type="FontAwesome5" style={{ color: "white" }} />
-      </TouchableOpacity>
+      <NewButton navigation={navigation} />
     </Container>
   );
 }
