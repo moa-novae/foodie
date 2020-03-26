@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     margin: 5
   },
   tagSelected: {
-    backgroundColor: "#CBDFBD"
+    backgroundColor: "#1f2232"
   },
   tagNotSelected: {
     backgroundColor: "#d5d9d2"

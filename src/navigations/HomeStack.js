@@ -7,6 +7,7 @@ import { DefaultTheme } from "@react-navigation/native";
 import Home from "../scenes/Home";
 import { Icon } from "native-base";
 import Category from "../scenes/Category";
+import CreateNew from '../scenes/CreateNew'
 const Stack = createStackNavigator();
 function LogoTitle() {
   return (
@@ -17,17 +18,7 @@ function LogoTitle() {
     />
   );
 }
-const theme = {
-  dark: true, 
-  colors: {
-    primary: '#cee5f2',
-    background: '#596475',
-    card : '#1f2232',
-    text: 'white',
-    border: '#1f2232'
-  }
 
-}
 export default function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{
@@ -43,7 +34,7 @@ export default function HomeStack() {
           headerRight: () => (
             <Icon
               style={{ marginLeft: 10, marginRight: 10, fontSize: 30, color: '#cee5f2' }}
-              name="list-ul"
+              name="search"
               type="FontAwesome5"
               onPress={() => navigation.navigate("HalfModal")}
             />
@@ -54,6 +45,10 @@ export default function HomeStack() {
         name="Category"
         component={Category}
         options={{ ...TransitionPresets.SlideFromRightIOS }}
+      />
+      <Stack.Screen 
+      name="CreateNew"
+      component={CreateNew}
       />
     </Stack.Navigator>
   );

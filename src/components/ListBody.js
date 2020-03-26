@@ -29,8 +29,7 @@ export default function CardHeader(props) {
   const categoryItems = loadCategoryData(
     testData.data,
     props.text.toLowerCase().trim()
-  );
-  console.log(props.text, categoryItems)
+  ); 
   return (
     <ListItem
       button

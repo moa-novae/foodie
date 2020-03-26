@@ -89,6 +89,9 @@ export default function HalfModal({ navigation }) {
 
 const styles = StyleSheet.create({
   tags: {
+    marginTop: 40,
+    marginLeft: 20,
+    marginRight: 20,
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap"

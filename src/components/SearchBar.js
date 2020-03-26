@@ -19,7 +19,7 @@ export default function(props) {
           autoCapitalize="sentences"
           returnKeyType="search"
           clearButtonMode="while-editing"
-          autoFocus={true}
+          autoFocus={false}
           style={styles.searchBar}
         />
       </Item>

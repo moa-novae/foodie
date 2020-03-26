@@ -1,19 +1,4 @@
-import {
-  Container,
-  Card,
-  Title,
-  Content,
-  Footer,
-  FooterTab,
-  Button,
-  Left,
-  Right,
-  Body,
-  Icon,
-  Text,
-  List,
-  ListItem
-} from "native-base";
+import { Container, Content, List, Fab, Icon } from "native-base";
 import React from "react";
 import ReactNative from "react-native";
 import { StyleSheet, View } from "react-native";
@@ -37,7 +22,10 @@ export default function Home({ navigation }) {
     />
   ));
   return (
-    <Container style={{backgroundColor: '#596475'}}>
+    <Container style={{ backgroundColor: "#ffffff" }}>
+      <Fab style={{ backgroundColor: "#1f2232" }} onPress={()=> navigation.navigate('CreateNew')}>
+        <Icon name="plus" type="FontAwesome5" />
+      </Fab>
       <Content>
         <List>
           <ListHeader text="Food" />
