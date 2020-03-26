@@ -49,6 +49,7 @@ export default function HomeStack() {
       <Stack.Screen 
       name="CreateNew"
       component={CreateNew}
+      options={{ ...TransitionPresets.SlideFromRightIOS }}
       />
     </Stack.Navigator>
   );
