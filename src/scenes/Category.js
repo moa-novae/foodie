@@ -8,13 +8,17 @@ export default function Category({ route }) {
   const { categoryItems } = route.params;
   const Cards = [];
   for (let [key, value] of Object.entries(categoryItems)) {
-    Cards.push(<DisplayCard name={value.name} key={key}/>);
+    Cards.push(
+      <DisplayCard
+        name={value.name}
+        description={value.description}
+        key={key}
+      />
+    );
   }
   return (
     <Container>
-      <Content>
-        {Cards}
-      </Content>
+      <Content>{Cards}</Content>
     </Container>
   );
 }

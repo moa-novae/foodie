@@ -15,6 +15,11 @@ export default function(props) {
       <CardItem>
         <Text>{characterSwap(props.name, "_", " ")}</Text>
       </CardItem>
+      <CardItem>
+        <Text>
+          {props.description}
+        </Text>
+      </CardItem>
     </Card>
   );
 }
