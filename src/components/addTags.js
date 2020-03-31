@@ -1,3 +1,5 @@
+import React from "react";
+import { Item, Input } from "native-base";
 export default function Tag(props) {
   return (
     <Item>

@@ -1,5 +1,5 @@
-import React from 'react'
-import {Item, Input} from 'native-base'
+import React from "react";
+import { Item, Input } from "native-base";
 
 export default function Ingredient(props) {
   return (

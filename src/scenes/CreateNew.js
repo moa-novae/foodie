@@ -16,8 +16,10 @@ import { Rating } from "react-native-ratings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Ingredient from "../components/addIngredients";
 import Tag from "../components/addTags";
+import { saveToLocal } from "../utils/infoSaver";
+import { uniqueId } from "../utils/uniqueId";
 
-export default function() {
+export default function({ navigation }) {
   const [form, setForm] = useState({ ingredients: [], tags: [] });
 
   //refactor ingredients and taggs to one general function
@@ -127,8 +129,22 @@ export default function() {
               <Icon name="pluscircleo" type="AntDesign" />
               <Text>Add more</Text>
             </TouchableOpacity>
+            <Button
+              onPress={() => {
+                navigation.navigate("Camera");
+              }}
+            >
+              <Text>Camera</Text>
+            </Button>
           </Form>
-          <Button onPress={() => console.log("form", form)}>
+          <Button
+            onPress={() => {
+              console.log("form", form);
+              const cardId = uniqueId();
+              saveToLocal("cards", { [cardId]: { ...form, cardId } });
+              navigation.navigate("Home");
+            }}
+          >
             <Text>Print form</Text>
           </Button>
         </Content>

@@ -1,11 +1,12 @@
-import { Container, Content, List, Fab, Icon } from "native-base";
+import { Container, Content, List, Fab, Icon, Button } from "native-base";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 import { StyleSheet, View } from "react-native";
 import ListHeader from "../components/ListHeader";
 import ListBody from "../components/ListBody";
 import Tag from "../components/Tag";
 import NewButton from "../components/NewButton";
+import { readFromLocal } from "../utils/infoSaver";
 
 const testArr = [
   { name: "Food", icon: "utensils" },
@@ -29,6 +30,13 @@ export default function Home({ navigation }) {
           <ListHeader text="Food" />
           {categoriesList}
         </List>
+        <Button
+          onPress={() => {
+            readFromLocal("cards").then(console.log);
+          }}
+        >
+          <Text>Test</Text>
+        </Button>
       </Content>
       <NewButton navigation={navigation} />
     </Container>

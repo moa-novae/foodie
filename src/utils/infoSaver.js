@@ -1,9 +1,9 @@
 import { AsyncStorage } from "react-native";
 
-export const saveToLocal = async function(obj) {
-  const objStr = JSON.stringify(obj);
+export const saveToLocal = async function(key, value) {
+  const valueStr = JSON.stringify(value);
   try {
-    await AsyncStorage.setItem("cards", objStr);
+    await AsyncStorage.setItem(key, valueStr);
   } catch (error) {
     console.log("error", error.message);
   }
