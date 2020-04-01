@@ -15,9 +15,11 @@ export default function App({ navigation }) {
   // const onPictureSaved = function () {
   //   navigation.navigate('ShowImage')
   // }
-  // const options ={onPictureSaved}
+  const options = { quality: 1 };
   const takePicture = async function() {
-    const { uri } = await cameraRef.current.takePictureAsync();
+    const { uri, width, height } = await cameraRef.current.takePictureAsync(
+      options
+    );
     navigation.navigate("ShowImage", { uri });
   };
   if (hasPermission === null) {
@@ -29,7 +31,7 @@ export default function App({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={type} ref={cameraRef} ratio="4:3">
+      <Camera style={{ flex: 1 }} type={type} ref={cameraRef}>
         <View
           style={{
             flex: 1,
@@ -68,15 +70,17 @@ export default function App({ navigation }) {
           >
             CAMERA
           </Text>
-          <TouchableOpacity onPress={()=>takePicture()}>
-            <Text style={{
-              flex: 0.1,
-              alignSelf: "flex-end",
-              alignItems: "center",
-              fontSize: 18,
-              marginBottom: 10,
-              color: "white"
-            }}>
+          <TouchableOpacity onPress={() => takePicture()}>
+            <Text
+              style={{
+                flex: 0.1,
+                alignSelf: "flex-end",
+                alignItems: "center",
+                fontSize: 18,
+                marginBottom: 10,
+                color: "white"
+              }}
+            >
               TAKE PICTURE
             </Text>
           </TouchableOpacity>

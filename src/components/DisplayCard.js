@@ -5,9 +5,9 @@ import { characterSwap } from "../utils/textParser";
 export default function(props) {
   return (
     <Card>
-      <CardItem cardBody>
+      <CardItem cardBody style={{ justifyContent: "center" }}>
         <Image
-          style={{ width: "100%", height: 400 }}
+          style={{ width: 395, height: 395 }}
           resizeMode="contain"
           source={require("../assets/old_fashioned.png")}
         />
@@ -16,9 +16,7 @@ export default function(props) {
         <Text>{characterSwap(props.name, "_", " ")}</Text>
       </CardItem>
       <CardItem>
-        <Text>
-          {props.description}
-        </Text>
+        <Text>{props.description}</Text>
       </CardItem>
     </Card>
   );

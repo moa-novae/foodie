@@ -11,7 +11,7 @@ import {
   Icon,
   Button
 } from "native-base";
-import { TouchableOpacity, ScrollView, View } from "react-native";
+import { TouchableOpacity, ScrollView, View, Image } from "react-native";
 import { Rating } from "react-native-ratings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Ingredient from "../components/addIngredients";
@@ -136,6 +136,9 @@ export default function({ navigation }) {
             >
               <Text>Camera</Text>
             </Button>
+            <Item>
+              <Image resizeMode="contain" style={{ width: 300, height: 300 }} />
+            </Item>
           </Form>
           <Button
             onPress={() => {
