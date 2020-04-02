@@ -12,6 +12,9 @@ import {
   Button
 } from "native-base";
 import { TouchableOpacity, ScrollView, View, Image } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
 import { Rating } from "react-native-ratings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Ingredient from "../components/addIngredients";
@@ -21,8 +24,28 @@ import { uniqueId } from "../utils/uniqueId";
 
 export default function({ navigation }) {
   const [form, setForm] = useState({ ingredients: [], tags: [] });
+  const [imageUri, setImageUri] = useState(null);
 
   //refactor ingredients and taggs to one general function
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      quality: 1
+    });
+
+    if (!result.cancelled) {
+      setImageUri(result.uri);
+      navigation.navigate("ShowImage", { uri: result.uri, setImageUri })
+    }
+  };
+
+  const getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    }
+  };
 
   const addIngredients = function() {
     setForm(prev => ({
@@ -131,13 +154,22 @@ export default function({ navigation }) {
             </TouchableOpacity>
             <Button
               onPress={() => {
-                navigation.navigate("Camera");
+                navigation.navigate("Camera", { setImageUri });
               }}
             >
               <Text>Camera</Text>
             </Button>
+            <Button onPress={() => pickImage()}>
+              <Text>Photo Albumn</Text>
+            </Button>
+
             <Item>
-              <Image resizeMode="contain" style={{ width: 300, height: 300 }} />
+              {console.log("uri in create new", imageUri)}
+              <Image
+                source={{ uri: imageUri }}
+                resizeMode="contain"
+                style={{ width: 300, height: 300 }}
+              />
             </Item>
           </Form>
           <Button

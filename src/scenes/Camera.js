@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
 
-export default function App({ navigation }) {
+export default function App({ navigation, route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const cameraRef = useRef(null);
+  const {setImageUri} = route.params
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -20,7 +21,7 @@ export default function App({ navigation }) {
     const { uri, width, height } = await cameraRef.current.takePictureAsync(
       options
     );
-    navigation.navigate("ShowImage", { uri });
+    navigation.navigate("ShowImage", { uri, setImageUri });
   };
   if (hasPermission === null) {
     return <View />;
