@@ -16,7 +16,7 @@
     "expo-camera": "~8.0.0",
     "expo-constants": "~8.0.0",
     "expo-font": "~8.0.0",
-    "expo-image-crop": "https://github.com/moa-novae/expo-image-crop/tarball/master",
+    "expo-image-crop": "https://github.com/moa-novae/expo-image-crop",
     "expo-image-manipulator": "~8.0.0",
     "expo-image-picker": "~8.0.1",
     "expo-permissions": "~8.0.0",

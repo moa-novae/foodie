@@ -24,7 +24,7 @@ import { uniqueId } from "../utils/uniqueId";
 
 export default function({ navigation }) {
   const [form, setForm] = useState({ ingredients: [], tags: [] });
-  const [imageUri, setImageUri] = useState(null);
+
 
   //refactor ingredients and taggs to one general function
   const pickImage = async () => {
@@ -33,8 +33,8 @@ export default function({ navigation }) {
     });
 
     if (!result.cancelled) {
-      setImageUri(result.uri);
-      navigation.navigate("ShowImage", { uri: result.uri, setImageUri })
+      setForm(prev => ({...prev, uri: result.uri}));
+      navigation.navigate("ShowImage", { uri: result.uri, setForm });
     }
   };
 
@@ -89,19 +89,19 @@ export default function({ navigation }) {
   }
 
   return (
-    <KeyboardAwareScrollView
-      enableAutomaticScroll
-      extraScrollHeight={10}
-      enableOnAndroid={true}
-      extraHeight={Platform.select({ android: 100 })}
-      enableAutomaticScroll={Platform.OS === "ios"}
-      style={{ flex: 1, flexDirection: "column" }}
-      behavior="padding"
-      enabled
-      keyboardVerticalOffset={100}
-    >
-      <Container>
-        <Content>
+    <Container>
+      <Content>
+        <KeyboardAwareScrollView
+          enableAutomaticScroll
+          extraScrollHeight={10}
+          enableOnAndroid={true}
+          extraHeight={Platform.select({ android: 100 })}
+          enableAutomaticScroll={Platform.OS === "ios"}
+          style={{ flex: 1, flexDirection: "column" }}
+          behavior="padding"
+          enabled
+          keyboardVerticalOffset={100}
+        >
           <Form>
             <Item floatingLabel style={{ height: 50 }}>
               <Label>Name</Label>
@@ -154,7 +154,7 @@ export default function({ navigation }) {
             </TouchableOpacity>
             <Button
               onPress={() => {
-                navigation.navigate("Camera", { setImageUri });
+                navigation.navigate("Camera", { setForm });
               }}
             >
               <Text>Camera</Text>
@@ -164,12 +164,13 @@ export default function({ navigation }) {
             </Button>
 
             <Item>
-              {console.log("uri in create new", imageUri)}
-              <Image
-                source={{ uri: imageUri }}
-                resizeMode="contain"
-                style={{ width: 300, height: 300 }}
-              />
+              {form.uri && (
+                <Image
+                  source={{ uri: form.uri }}
+                  resizeMode="contain"
+                  style={{ width: 300, height: 300 }}
+                />
+              )}
             </Item>
           </Form>
           <Button
@@ -182,8 +183,8 @@ export default function({ navigation }) {
           >
             <Text>Print form</Text>
           </Button>
-        </Content>
-      </Container>
-    </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </Content>
+    </Container>
   );
 }

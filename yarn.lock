@@ -2773,9 +2773,9 @@ expo-font@~8.0.0:
   dependencies:
     fontfaceobserver "^2.1.0"
 
-"expo-image-crop@https://github.com/moa-novae/expo-image-crop/tarball/master":
+"expo-image-crop@https://github.com/moa-novae/expo-image-crop":
   version "1.0.4"
-  resolved "https://github.com/moa-novae/expo-image-crop/tarball/master#b96a8bc289d1aca4cfce179bf15df9e45992885a"
+  resolved "https://github.com/moa-novae/expo-image-crop#28be3e9b883fd71f9dea515cf3023556f87ca0ca"
   dependencies:
     babel-eslint "^10.0.1"
     eslint "^5.11.1"

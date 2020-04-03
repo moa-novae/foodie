@@ -4,7 +4,7 @@ import { ImageBackground, View, Dimensions } from "react-native";
 import { ImageManipulator } from "expo-image-crop";
 
 export default function({ route, navigation }) {
-  const { uri, setImageUri } = route.params;
+  const { uri, setForm } = route.params;
   const [editorVisible, setEditorVisible] = useState(true);
   return (
     <Container>
@@ -29,7 +29,7 @@ export default function({ route, navigation }) {
               setEditorVisible(prev => !prev);
               navigation.navigate('CreateNew');
             }}
-            onPictureChoosed={({ uri }) => setImageUri(uri)}
+            onPictureChoosed={({ uri }) => setForm(prev => ({...prev, uri}))}
           />
         </View>
       </View>

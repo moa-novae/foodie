@@ -6,7 +6,7 @@ export default function App({ navigation, route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const cameraRef = useRef(null);
-  const {setImageUri} = route.params
+  const {setForm} = route.params
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -21,7 +21,7 @@ export default function App({ navigation, route }) {
     const { uri, width, height } = await cameraRef.current.takePictureAsync(
       options
     );
-    navigation.navigate("ShowImage", { uri, setImageUri });
+    navigation.navigate("ShowImage", { uri, setForm });
   };
   if (hasPermission === null) {
     return <View />;

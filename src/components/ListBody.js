@@ -14,29 +14,17 @@ import {
 } from "native-base";
 import { StyleSheet, View } from "react-native";
 import * as testData from "../assets/sampleData";
+import {categoryFinder} from '../utils/SearchFunctions'
 
-const loadCategoryData = (data, category) => {
-  let outputObj = {};
-  for (let [key, value] of Object.entries(data)) {
-    if (value.tags.includes(category)) {
-      outputObj = { ...outputObj, [key]: value };
-    }
-  }
-  return outputObj;
-};
 
 export default function CardHeader(props) {
-  const categoryItems = loadCategoryData(
-    testData.data,
-    props.text.toLowerCase().trim()
-  ); 
   return (
     <ListItem
       button
       icon
       onPress={() =>
         props.navigation.navigate("Category", {
-          categoryItems: { ...categoryItems }
+          categoryItems: { ...props.cards }
         })
       }
     >
