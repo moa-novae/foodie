@@ -27,6 +27,7 @@ export default function Home({ navigation }) {
       cards={categoryFinder(cards, category.name.toLowerCase())}
     />
   ));
+
   useFocusEffect(
     useCallback(() => {
       let isActive = true;

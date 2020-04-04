@@ -9,7 +9,7 @@ export default function(props) {
         <Image
           style={{ width: 395, height: 395 }}
           resizeMode="contain"
-          source={require("../assets/old_fashioned.png")}
+          source={{ uri: props.uri }}
         />
       </CardItem>
       <CardItem>

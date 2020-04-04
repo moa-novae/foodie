@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -8,8 +8,11 @@ import {
   TextInput
 } from "react-native";
 import { Form, Item, Input, Icon } from "native-base";
+import { readFromLocal } from "../utils/infoSaver";
 import Tag from "../components/Tag";
 import SearchBar from "../components/SearchBar";
+import {searchAll} from '../utils/SearchFunctions'
+import { useFocusEffect } from "@react-navigation/native";
 
 const testTags = [
   "Tasty",
@@ -22,28 +25,14 @@ const testTags = [
   "Morning"
 ];
 
-const sampleData = {
-  white_russian: {
-    rating: 4.5,
-    ingredients: ["heavy cream", "vodka", "coffee liqueur"],
-    tags: ["cocktail", "evening", "drinks", "creamy"]
-  },
-  old_fashioned: {
-    rating: 4.7,
-    ingredients: ["rye", "bourbon", "angostura bitters", "orange twist"],
-    tags: ["cocktail", "evening", "drinks", "citrus"]
-  },
-  whiskey_sour: {
-    rating: 5,
-    ingredients: ["whiskey", "lemon juice", "sugar"],
-    tags: ["fast", "cocktail", "evening", "citrus"]
-  }
-};
+
 
 export default function HalfModal({ navigation }) {
   const initialTagsSelected = {};
   testTags.forEach(tag => (initialTagsSelected[tag] = false));
   const [tagSelected, setTagSelected] = useState(initialTagsSelected);
+  const [searchTerm, setSearchTerm] = useState('')
+  const [cards, setCards] = useState({});
   const tags = testTags.map((tag, index) => (
     <Tag
       key={index}
@@ -53,6 +42,29 @@ export default function HalfModal({ navigation }) {
     />
   ));
 
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      const fetchNewCards = async () => {
+        const newCards = await readFromLocal("cards");
+        if (isActive) {
+          setCards(prev => JSON.parse(newCards));
+        }
+      };
+      fetchNewCards();
+      return () => {
+        isActive = false;
+      };
+    }, [])
+    );
+    
+    const onSearch = (searchStr) => {
+      setSearchTerm(prev => searchStr)
+      const output = searchAll(cards, searchStr, tagSelected)
+      console.log('output', output)
+      return output
+  
+    }
   return (
     // when clicked outside of the modal, go back to the homepage
     <TouchableOpacity
@@ -79,7 +91,7 @@ export default function HalfModal({ navigation }) {
             justifyContent: "center"
           }}
         >
-          <SearchBar />
+          <SearchBar onSearch={onSearch}/>
           <View style={styles.tags}>{tags}</View>
         </View>
       </TouchableWithoutFeedback>
