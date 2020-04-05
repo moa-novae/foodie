@@ -6,7 +6,7 @@ export const categoryFinder = (cards, category) => {
       if (value.tags) {
         const tags = value.tags.map(tag => tag.toLowerCase());
         if (tags.includes(category)) {
-          output = { ...output, value };
+          output = { ...output, [key]: value };
         }
       }
     }

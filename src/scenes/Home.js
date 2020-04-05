@@ -7,8 +7,9 @@ import ListHeader from "../components/ListHeader";
 import ListBody from "../components/ListBody";
 import Tag from "../components/Tag";
 import NewButton from "../components/NewButton";
-import { readFromLocal } from "../utils/infoSaver";
+import { saveToLocal, readFromLocal } from "../utils/infoSaver";
 import { categoryFinder } from "../utils/SearchFunctions";
+import { sampleData } from "../assets/sampleData";
 
 const testArr = [
   { name: "Food", icon: "utensils" },
@@ -18,16 +19,21 @@ const meals = ["Dinner", "Lunch", "Breakfast"];
 
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
-  const categoriesList = testArr.map((category, index) => (
-    <ListBody
-      key={index}
-      text={category.name}
-      icon={category.icon}
-      navigation={navigation}
-      cards={categoryFinder(cards, category.name.toLowerCase())}
-    />
-  ));
-
+  const categoriesList = testArr.map((category, index) => {
+    console.log(
+      "pass to cat",
+      categoryFinder(cards, category.name.toLowerCase())
+    );
+    return (
+      <ListBody
+        key={index}
+        text={category.name}
+        icon={category.icon}
+        navigation={navigation}
+        cards={categoryFinder(cards, category.name.toLowerCase())}
+      />
+    );
+  });
   useFocusEffect(
     useCallback(() => {
       let isActive = true;
@@ -55,7 +61,7 @@ export default function Home({ navigation }) {
             readFromLocal("cards").then(console.log);
           }}
         >
-          <Text>Test</Text>
+          <Text>Show Local</Text>
         </Button>
         <Button
           onPress={() => {
@@ -63,6 +69,13 @@ export default function Home({ navigation }) {
           }}
         >
           <Text>Clear</Text>
+        </Button>
+        <Button
+          onPress={() => {
+            saveToLocal("cards", { ...sampleData });
+          }}
+        >
+          <Text>Seed with Sample Data</Text>
         </Button>
       </Content>
       <NewButton navigation={navigation} />

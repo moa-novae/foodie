@@ -1,7 +1,7 @@
 import React from "react";
 import { Image } from "react-native";
 import { Card, CardItem, Body, Text, Thumbnail } from "native-base";
-import { characterSwap } from "../utils/textParser";
+import { characterSwap, arrToString } from "../utils/textParser";
 export default function(props) {
   return (
     <Card>
@@ -17,6 +17,12 @@ export default function(props) {
       </CardItem>
       <CardItem>
         <Text>{props.description}</Text>
+      </CardItem>
+      <CardItem>
+        <Text>Ingredients: {props.ingredients.join(', ')}</Text>
+      </CardItem>
+      <CardItem>
+        <Text>Tags: {props.tags.join(', ')}</Text>
       </CardItem>
     </Card>
   );
