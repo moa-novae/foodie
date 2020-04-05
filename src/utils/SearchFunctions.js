@@ -23,13 +23,13 @@ export const searchAll = (cards, keyword, searchTags) => {
     for (let [itemId, value] of Object.entries(cards)) {
       const name = characterSwap(value.name, "_", " ").toLowerCase();
       if (name.includes(lowerKeyword)) {
-        output.itemId = { ...value };
+        output[itemId] = { ...value };
         continue;
       }
       if (value.description) {
         const description = value.description.toLowerCase();
         if (description.includes(lowerKeyword)) {
-          output.itemId = { ...value };
+          output[itemId] = { ...value };
           continue;
         }
       }
@@ -38,14 +38,14 @@ export const searchAll = (cards, keyword, searchTags) => {
           ingredient.toLowerCase()
         );
         if (ingredients.includes(lowerKeyword)) {
-          output.itemId = { ...value };
+          output[itemId] = { ...value };
           continue;
         }
       }
       if (value.tags) {
-        const tags = value.tags.map(tag => tag.toLowerCase());
-        if (tags.includes(lowerKeyword)) {
-          output.itemId = { ...value };
+        const lowerTags = value.tags.map(tag => tag.toLowerCase());
+        if (lowerTags.includes(lowerKeyword)) {
+          output[itemId] = { ...value };
           continue;
         }
         //Convert searchTags which is an object, to an array
@@ -53,10 +53,12 @@ export const searchAll = (cards, keyword, searchTags) => {
         for (let [tag, bool] of Object.entries(searchTags)) {
           if (bool) searchTagsArr.push(tag);
         }
+
         //check to see if this item has all tags searched
-        if (searchTagsArr) {
+        if (searchTagsArr.length) {
           if (searchTagsArr.every(searchTag => tags.includes(searchTag))) {
-            output.itemId = { ...value };
+            output[itemId] = { ...value };
+            console.log("passed by tag", value.name);
             continue;
           }
         }

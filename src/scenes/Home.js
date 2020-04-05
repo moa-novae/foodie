@@ -20,10 +20,6 @@ const meals = ["Dinner", "Lunch", "Breakfast"];
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
   const categoriesList = testArr.map((category, index) => {
-    console.log(
-      "pass to cat",
-      categoryFinder(cards, category.name.toLowerCase())
-    );
     return (
       <ListBody
         key={index}

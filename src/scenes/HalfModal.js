@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -11,7 +11,7 @@ import { Form, Item, Input, Icon } from "native-base";
 import { readFromLocal } from "../utils/infoSaver";
 import Tag from "../components/Tag";
 import SearchBar from "../components/SearchBar";
-import {searchAll} from '../utils/SearchFunctions'
+import { searchAll } from "../utils/SearchFunctions";
 import { useFocusEffect } from "@react-navigation/native";
 
 const testTags = [
@@ -25,22 +25,42 @@ const testTags = [
   "Morning"
 ];
 
-
-
 export default function HalfModal({ navigation }) {
   const initialTagsSelected = {};
   testTags.forEach(tag => (initialTagsSelected[tag] = false));
   const [tagSelected, setTagSelected] = useState(initialTagsSelected);
-  const [searchTerm, setSearchTerm] = useState('')
   const [cards, setCards] = useState({});
-  const tags = testTags.map((tag, index) => (
-    <Tag
-      key={index}
-      text={tag}
-      setTagSelected={setTagSelected}
-      tagSelected={tagSelected}
-    />
-  ));
+  const [availableTags, setAvailableTags] = useState();
+  let tags = [];
+  if (availableTags && availableTags.length) {
+    tags = availableTags.map((tag, index) => (
+      <Tag
+        key={index}
+        text={tag}
+        setTagSelected={setTagSelected}
+        tagSelected={tagSelected}
+      />
+    ));
+  }
+
+  useEffect(() => {
+    let tagCounter = {};
+    for (let [cardId, cardValue] of Object.entries(cards)) {
+      cardValue.tags.forEach(tag => {
+        if (tagCounter[tag]) {
+          tagCounter[tag]++;
+        } else {
+          tagCounter[tag] = 1;
+        }
+      });
+    }
+    const tagCounterArr = Object.entries(tagCounter);
+    const sortedTagCounterArr = tagCounterArr.sort(function(a, b) {
+      return b[1] - a[1];
+    });
+    const sortedTagDesc = sortedTagCounterArr.map(tagCounter => tagCounter[0]);
+    setAvailableTags(prev => [...sortedTagCounterArr]);
+  }, [cards]);
 
   useFocusEffect(
     useCallback(() => {
@@ -56,15 +76,14 @@ export default function HalfModal({ navigation }) {
         isActive = false;
       };
     }, [])
-    );
-    
-    const onSearch = (searchStr) => {
-      setSearchTerm(prev => searchStr)
-      const output = searchAll(cards, searchStr, tagSelected)
-      console.log('output', output)
-      return output
-  
-    }
+  );
+
+  const onSearch = searchStr => {
+    // console.log('cards', cards)
+    const categoryItems = searchAll(cards, searchStr, tagSelected);
+    navigation.navigate("Category", { categoryItems });
+    // console.log('output', output)
+  };
   return (
     // when clicked outside of the modal, go back to the homepage
     <TouchableOpacity
@@ -91,7 +110,7 @@ export default function HalfModal({ navigation }) {
             justifyContent: "center"
           }}
         >
-          <SearchBar onSearch={onSearch}/>
+          <SearchBar onSearch={onSearch} />
           <View style={styles.tags}>{tags}</View>
         </View>
       </TouchableWithoutFeedback>

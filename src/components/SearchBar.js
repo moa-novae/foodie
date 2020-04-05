@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Form, Item, Input, Icon, DatePicker } from "native-base";
 export default function(props) {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [searchStr, setSearchStr] = useState("");
   return (
     <Form>
@@ -18,6 +18,7 @@ export default function(props) {
         <Icon active type="FontAwesome5" name="search" />
         <TextInput
           onChangeText={text => setSearchStr(prev => text)}
+          value={searchStr}
           placeHolder="Search"
           multiline={false}
           autoCapitalize="sentences"
@@ -26,8 +27,7 @@ export default function(props) {
           autoFocus={false}
           style={styles.searchBar}
           onSubmitEditing={() => {
-            const categoryItems = props.onSearch(searchStr);
-            navigation.navigate("Category", { categoryItems });
+            props.onSearch(searchStr);
           }}
         />
       </Item>
