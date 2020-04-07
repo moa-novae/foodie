@@ -1,4 +1,12 @@
-import { Container, Content, List, Fab, Icon, Button } from "native-base";
+import {
+  Container,
+  Content,
+  List,
+  Fab,
+  Icon,
+  Button,
+  Footer,
+} from "native-base";
 import React, { useEffect, useState, useCallback } from "react";
 import { TouchableOpacity, Text, AsyncStorage } from "react-native";
 import { StyleSheet, View } from "react-native";
@@ -13,7 +21,7 @@ import { sampleData } from "../assets/sampleData";
 
 const testArr = [
   { name: "Food", icon: "utensils" },
-  { name: "Drinks", icon: "wine-glass" }
+  { name: "Drinks", icon: "wine-glass" },
 ];
 const meals = ["Dinner", "Lunch", "Breakfast"];
 
@@ -36,7 +44,7 @@ export default function Home({ navigation }) {
       const fetchNewCards = async () => {
         const newCards = await readFromLocal("cards");
         if (isActive) {
-          setCards(prev => JSON.parse(newCards));
+          setCards((prev) => JSON.parse(newCards));
         }
       };
       fetchNewCards();
@@ -48,10 +56,7 @@ export default function Home({ navigation }) {
   return (
     <Container style={{ backgroundColor: "#ffffff" }}>
       <Content>
-        <List>
-          <ListHeader text="Food" />
-          {categoriesList}
-        </List>
+        <List>{categoriesList}</List>
         <Button
           onPress={() => {
             readFromLocal("cards").then(console.log);
@@ -74,7 +79,38 @@ export default function Home({ navigation }) {
           <Text>Seed with Sample Data</Text>
         </Button>
       </Content>
-      <NewButton navigation={navigation} />
+      <Footer
+        style={{
+          backgroundColor: "#ffff",
+          position: "absolute",
+          flex: 1,
+          bottom: 0,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingLeft: 15,
+          paddingRight: 15,
+        }}
+      >
+        <Button
+          transparent
+          iconRight
+          onPress={() => navigation.navigate("CreateNewCategory")}
+        >
+          <Icon
+            name="addfolder"
+            style={{ color: "#2164ff" }}
+            type="AntDesign"
+          />
+          <Text>New Category</Text>
+        </Button>
+        <Button
+          transparent
+          iconRight
+          onPress={() => navigation.navigate("CreateNew")}
+        >
+          <Icon name="plus" type="AntDesign" />
+        </Button>
+      </Footer>
     </Container>
   );
 }
