@@ -27,6 +27,7 @@ const meals = ["Dinner", "Lunch", "Breakfast"];
 
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
+  const [allTags, setAllTags] = useState([]);
   const categoriesList = testArr.map((category, index) => {
     return (
       <ListBody
@@ -53,6 +54,18 @@ export default function Home({ navigation }) {
       };
     }, [])
   );
+  useEffect(() => {
+    const availabeTags = [];
+    for (let [cardId, cardValue] of Object.entries(cards)) {
+      for (let tag of cardValue.tags) {
+        if (!availabeTags.includes(tag)) {
+          availabeTags.push(tag);
+        }
+      }
+    }
+    setAllTags((prev) => availabeTags);
+  }, [cards]);
+  console.log("allTags", allTags);
   return (
     <Container style={{ backgroundColor: "#ffffff" }}>
       <Content>
@@ -94,7 +107,7 @@ export default function Home({ navigation }) {
         <Button
           transparent
           iconRight
-          onPress={() => navigation.navigate("CreateNewCategory")}
+          onPress={() => navigation.navigate("CreateNewCategory", {allTags})}
         >
           <Icon
             name="addfolder"

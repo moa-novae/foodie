@@ -9,8 +9,11 @@ import {
   Input,
   Label,
   Icon,
+  List,
+  ListItem,
 } from "native-base";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import Autocomplete from "react-native-autocomplete-input";
 
 const sampleColor = [
   "red",
@@ -60,12 +63,26 @@ const sampleIcons = [
   "stroopwafel",
 ];
 
-export default function () {
-  const [newCategory, setNewCategory] = useState({
-    iconColor: "",
-    name: "",
-    icon: "",
+const filterData = function (query, dataSet) {
+  const output = [];
+  dataSet.forEach((data) => {
+    if (data.includes(query.trim().toLowerCase())) {
+      output.push(data);
+    }
   });
+  return output;
+};
+
+export default function ({ route }) {
+  const { allTags } = route.params;
+  const [tagQuery, setTagQuery] = useState("");
+  const [newCategory, setNewCategory] = useState({
+    iconColor: null,
+    name: "",
+    icon: null,
+    tags: [],
+  });
+  const [showAutoComplete, setShowAutoComplete] = useState(false);
   const buttons = sampleColor.map((color, index) => (
     <Button
       style={{ backgroundColor: color, width: 60, height: 40, margin: 3 }}
@@ -77,15 +94,18 @@ export default function () {
     <Button transparent>
       <Icon
         name={icon}
+        key={index}
         type="FontAwesome5"
         onPress={() => setNewCategory((prev) => ({ ...prev, icon }))}
         style={{ color: newCategory.iconColor }}
       />
     </Button>
   ));
+
+  const tags = newCategory.tags.map((tag) => <Text>{tag}</Text>);
   return (
     <Container>
-      <Content>
+      <Content keyboardShouldPersistTaps="always">
         <View>
           <Form>
             <Item floatingLabel>
@@ -99,6 +119,34 @@ export default function () {
             </Item>
           </Form>
         </View>
+        <Autocomplete
+          data={showAutoComplete ? filterData(tagQuery, allTags) : []}
+          defaultValue={tagQuery}
+          onSubmitEditing={() => {
+            setNewCategory((prev) => {
+              const newState = { ...prev };
+              if (!newState.tags.includes(tagQuery))
+                newState.tags.push(tagQuery);
+              return newState;
+            });
+          }}
+          onChangeText={(query) => {
+            setShowAutoComplete((prev) => true);
+            setTagQuery((prev) => query);
+          }}
+          renderItem={({ item, i }) => (
+            <TouchableOpacity
+              key={i}
+              onPress={() => {
+                setShowAutoComplete((prev) => false);
+                setTagQuery((prev) => item);
+              }}
+            >
+              <Text>{item}</Text>
+            </TouchableOpacity>
+          )}
+        />
+        {tags}
         <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
           <Text>Selected Color</Text>
           <Button
