@@ -16,7 +16,7 @@ import ListBody from "../components/ListBody";
 import Tag from "../components/Tag";
 import NewButton from "../components/NewButton";
 import { saveToLocal, readFromLocal } from "../utils/infoSaver";
-import { categoryFinder } from "../utils/SearchFunctions";
+
 import { sampleData } from "../assets/sampleData";
 
 const testArr = [
@@ -40,7 +40,7 @@ export default function Home({ navigation }) {
           icon={category.icon}
           type="FontAwesome5"
           navigation={navigation}
-          cards={categoryFinder(cards, category.name.toLowerCase())}
+          cards={cards}
           setCards={setCards}
         />
       );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Header,
@@ -14,23 +14,32 @@ import {
 } from "native-base";
 import { StyleSheet, View } from "react-native";
 import * as testData from "../assets/sampleData";
-import { categoryFinder } from "../utils/SearchFunctions";
+
 
 export default function CardHeader(props) {
+
+
   return (
     <ListItem
-    noBorder
+      noBorder
       style={styles.listItem}
       button
       icon
       onPress={() =>
         props.navigation.navigate("Category", {
-          categoryItems: { ...props.cards }, setCards: props.setCards
+          cards: props.cards,
+          setCards: props.setCards,
+          categoryName: props.text
         })
       }
     >
       <Left>
-        <Icon active name={props.icon} type="FontAwesome5" style={styles.icon} />
+        <Icon
+          active
+          name={props.icon}
+          type="FontAwesome5"
+          style={styles.icon}
+        />
       </Left>
       <Body>
         <Text>{props.text}</Text>
@@ -52,7 +61,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   icon: {
-    fontSize: 20, 
-    color: 'red',
-  }
+    fontSize: 20,
+    color: "red",
+  },
 });

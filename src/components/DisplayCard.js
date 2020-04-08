@@ -2,6 +2,7 @@ import React from "react";
 import { Image } from "react-native";
 import { Card, CardItem, Body, Text, Thumbnail, Icon } from "native-base";
 import { characterSwap, arrToString } from "../utils/textParser";
+import { deleteCard } from "../utils/infoSaver";
 export default function (props) {
   return (
     <Card>
@@ -14,7 +15,7 @@ export default function (props) {
             props.setCards((prev) => {
               const newCards = { ...prev };
               delete newCards[props.cardId];
-              console.log("newcards", newCards);
+              deleteCard(props.cardId);
               return newCards;
             });
           }}
