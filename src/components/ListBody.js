@@ -25,7 +25,7 @@ export default function CardHeader(props) {
       icon
       onPress={() =>
         props.navigation.navigate("Category", {
-          categoryItems: { ...props.cards },
+          categoryItems: { ...props.cards }, setCards: props.setCards
         })
       }
     >

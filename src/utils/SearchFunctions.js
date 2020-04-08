@@ -58,7 +58,7 @@ export const searchAll = (cards, keyword, searchTags) => {
         if (searchTagsArr.length) {
           if (searchTagsArr.every(searchTag => tags.includes(searchTag))) {
             output[itemId] = { ...value };
-            console.log("passed by tag", value.name);
+            // console.log("passed by tag", value.name);
             continue;
           }
         }

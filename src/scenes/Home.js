@@ -41,6 +41,7 @@ export default function Home({ navigation }) {
           type="FontAwesome5"
           navigation={navigation}
           cards={categoryFinder(cards, category.name.toLowerCase())}
+          setCards={setCards}
         />
       );
     }
@@ -71,7 +72,7 @@ export default function Home({ navigation }) {
     }
     setAllTags((prev) => availabeTags);
   }, [cards]);
-  console.log("allTags", allTags);
+  // console.log("allTags", allTags);
   return (
     <Container style={{ backgroundColor: "#ffffff" }}>
       <Content>
