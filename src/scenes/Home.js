@@ -28,17 +28,23 @@ const meals = ["Dinner", "Lunch", "Breakfast"];
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
   const [allTags, setAllTags] = useState([]);
-  const categoriesList = testArr.map((category, index) => {
-    return (
-      <ListBody
-        key={index}
-        text={category.name}
-        icon={category.icon}
-        navigation={navigation}
-        cards={categoryFinder(cards, category.name.toLowerCase())}
-      />
-    );
-  });
+  const [categories, setCategories] = useState();
+
+  const categoriesList = [];
+  if (categories) {
+    for (let [categoryId, category] of Object.entries(categories)) {
+      categoriesList.push(
+        <ListBody
+          key={categoryId}
+          text={category.name}
+          icon={category.icon}
+          type="FontAwesome5"
+          navigation={navigation}
+          cards={categoryFinder(cards, category.name.toLowerCase())}
+        />
+      );
+    }
+  }
   useFocusEffect(
     useCallback(() => {
       let isActive = true;
@@ -107,7 +113,9 @@ export default function Home({ navigation }) {
         <Button
           transparent
           iconRight
-          onPress={() => navigation.navigate("CreateNewCategory", {allTags})}
+          onPress={() =>
+            navigation.navigate("CreateNewCategory", { allTags, setCategories })
+          }
         >
           <Icon
             name="addfolder"

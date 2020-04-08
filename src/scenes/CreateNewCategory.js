@@ -14,6 +14,7 @@ import {
 } from "native-base";
 import { View, TouchableOpacity } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
+import { uniqueId } from "../utils/uniqueId";
 
 const sampleColor = [
   "red",
@@ -74,14 +75,15 @@ const filterData = function (query, dataSet) {
 };
 
 export default function ({ route }) {
-  const { allTags } = route.params;
-  const [tagQuery, setTagQuery] = useState("");
   const [newCategory, setNewCategory] = useState({
-    iconColor: null,
-    name: "",
-    icon: null,
+    name: null,
     tags: [],
+    icon: null,
+    iconColor: null,
   });
+  const { allTags, setCategories } = route.params;
+  const [tagQuery, setTagQuery] = useState("");
+
   const [showAutoComplete, setShowAutoComplete] = useState(false);
   const buttons = sampleColor.map((color, index) => (
     <Button
@@ -172,6 +174,16 @@ export default function ({ route }) {
         <View style={{ flexGrow: 1, flexDirection: "row", flexWrap: "wrap" }}>
           {foodIcons}
         </View>
+        <Button onPress={() => console.log("new category", newCategory)}>
+          <Text>Print current Form</Text>
+        </Button>
+        <Button
+          onPress={() => {
+            setCategories((prev) => ({ ...prev, [uniqueId()]: newCategory }));
+          }}
+        >
+          <Text>Save current Form</Text>
+        </Button>
       </Content>
     </Container>
   );
