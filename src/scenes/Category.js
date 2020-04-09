@@ -3,15 +3,17 @@ import React, { useState, useEffect } from "react";
 import ReactNative from "react-native";
 import { StyleSheet, View } from "react-native";
 import DisplayCard from "../components/DisplayCard";
-import { categoryFinder } from "../utils/SearchFunctions";
+import { searchAll } from "../utils/SearchFunctions";
 export default function Category({ route }) {
-  const { cards, setCards, categoryName } = route.params;
+  const { cards, searchTags, searchStr } = route.params;
   const [cardsOfThisCategory, setCardsOfThisCategory] = useState();
-
+  // const tagObj = {};
+  // for (tag of category.tags) {
+  //   tagObj[tag] = true;
+  // }
+  // console.log("tagobj", tagObj);
   useEffect(() => {
-    setCardsOfThisCategory((prev) =>
-      categoryFinder(cards, categoryName.toLowerCase())
-    );
+    setCardsOfThisCategory((prev) => searchAll(cards, searchStr || "", searchTags));
   }, [cards]);
 
   const Cards = [];

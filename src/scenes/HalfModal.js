@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ScrollView,
-  TextInput
+  TextInput,
 } from "react-native";
 import { Form, Item, Input, Icon } from "native-base";
 import { readFromLocal } from "../utils/infoSaver";
@@ -22,13 +22,11 @@ const testTags = [
   "Fast",
   "Mexican",
   "Late Night",
-  "Morning"
+  "Morning",
 ];
 
 export default function HalfModal({ navigation }) {
-  const initialTagsSelected = {};
-  testTags.forEach(tag => (initialTagsSelected[tag] = false));
-  const [tagSelected, setTagSelected] = useState(initialTagsSelected);
+  const [tagSelected, setTagSelected] = useState({});
   const [cards, setCards] = useState({});
   const [availableTags, setAvailableTags] = useState();
   let tags = [];
@@ -46,7 +44,7 @@ export default function HalfModal({ navigation }) {
   useEffect(() => {
     let tagCounter = {};
     for (let [cardId, cardValue] of Object.entries(cards)) {
-      cardValue.tags.forEach(tag => {
+      cardValue.tags.forEach((tag) => {
         if (tagCounter[tag]) {
           tagCounter[tag]++;
         } else {
@@ -55,11 +53,14 @@ export default function HalfModal({ navigation }) {
       });
     }
     const tagCounterArr = Object.entries(tagCounter);
-    const sortedTagCounterArr = tagCounterArr.sort(function(a, b) {
+    const sortedTagCounterArr = tagCounterArr.sort(function (a, b) {
       return b[1] - a[1];
     });
-    const sortedTagDesc = sortedTagCounterArr.map(tagCounter => tagCounter[0]);
-    setAvailableTags(prev => [...sortedTagCounterArr]);
+    console.log("sortedTag", sortedTagCounterArr);
+    const sortedTagDesc = sortedTagCounterArr.map(
+      (tagCounter) => tagCounter[0]
+    );
+    setAvailableTags((prev) => [...sortedTagDesc]);
   }, [cards]);
 
   useFocusEffect(
@@ -68,7 +69,7 @@ export default function HalfModal({ navigation }) {
       const fetchNewCards = async () => {
         const newCards = await readFromLocal("cards");
         if (isActive) {
-          setCards(prev => JSON.parse(newCards));
+          setCards((prev) => JSON.parse(newCards));
         }
       };
       fetchNewCards();
@@ -78,10 +79,15 @@ export default function HalfModal({ navigation }) {
     }, [])
   );
 
-  const onSearch = searchStr => {
-    // console.log('cards', cards)
-    const categoryItems = searchAll(cards, searchStr, tagSelected);
-    navigation.navigate("Category", { categoryItems });
+  //onSearch used to fetch searchStr from child searchbar
+  const onSearch = (searchStr) => {
+    // Convert tagSelected which is an object, to an array
+    let searchTags = [];
+    console.log("onSearch", tagSelected);
+    for (let [tag, bool] of Object.entries(tagSelected)) {
+      if (bool) searchTags.push(tag);
+    }
+    navigation.navigate("Category", { cards, searchStr, searchTags });
     // console.log('output', output)
   };
   return (
@@ -93,7 +99,7 @@ export default function HalfModal({ navigation }) {
         flex: 1,
         flexDirection: "column",
         justifyContent: "flex-end",
-        opacity: 0.9
+        opacity: 0.9,
       }}
       activeOpacity={1}
       onPressOut={() => {
@@ -107,7 +113,7 @@ export default function HalfModal({ navigation }) {
             height: "70%",
             width: "100%",
             backgroundColor: "#fff",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
           <SearchBar onSearch={onSearch} />
@@ -125,10 +131,10 @@ const styles = StyleSheet.create({
     marginRight: 20,
     flex: 1,
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   button: {
     width: 200,
-    height: 50
-  }
+    height: 50,
+  },
 });

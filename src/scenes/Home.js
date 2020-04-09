@@ -29,8 +29,20 @@ export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
   const [allTags, setAllTags] = useState([]);
   const [categories, setCategories] = useState({
-    [uniqueId()]: { name: "food", icon: "hamburger", type: "FontAwesome5" },
-    [uniqueId()]: { name: "drinks", icon: "cocktail", type: "FontAwesome5" },
+    [uniqueId()]: {
+      name: "food",
+      icon: "hamburger",
+      type: "FontAwesome5",
+      iconColor: "blue",
+      tags: ["food"],
+    },
+    [uniqueId()]: {
+      name: "drinks",
+      icon: "cocktail",
+      type: "FontAwesome5",
+      iconColor: "red",
+      tags: ["drinks"],
+    },
   });
 
   const categoriesList = [];
@@ -39,8 +51,7 @@ export default function Home({ navigation }) {
       categoriesList.push(
         <ListBody
           key={categoryId}
-          text={category.name}
-          icon={category.icon}
+          category={category}
           type="FontAwesome5"
           navigation={navigation}
           cards={cards}

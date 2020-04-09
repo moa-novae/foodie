@@ -15,9 +15,8 @@ import {
 import { StyleSheet, View } from "react-native";
 import * as testData from "../assets/sampleData";
 
-
 export default function CardHeader(props) {
-
+  const { category } = props;
 
   return (
     <ListItem
@@ -29,20 +28,20 @@ export default function CardHeader(props) {
         props.navigation.navigate("Category", {
           cards: props.cards,
           setCards: props.setCards,
-          categoryName: props.text
+          searchTags: category.tags,
         })
       }
     >
       <Left>
         <Icon
           active
-          name={props.icon}
+          name={category.icon}
           type="FontAwesome5"
-          style={styles.icon}
+          style={{ fontSize: 20, color: category.iconColor }}
         />
       </Left>
       <Body>
-        <Text>{props.text}</Text>
+        <Text>{category.name}</Text>
       </Body>
       <Right>
         <Icon active name="arrow-forward" />

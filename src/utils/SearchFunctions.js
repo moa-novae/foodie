@@ -4,7 +4,7 @@ export const categoryFinder = (cards, category) => {
   if (cards) {
     for (let [key, value] of Object.entries(cards)) {
       if (value.tags) {
-        const tags = value.tags.map(tag => tag.toLowerCase());
+        const tags = value.tags.map((tag) => tag.toLowerCase());
         if (tags.includes(category)) {
           output = { ...output, [key]: value };
         }
@@ -16,51 +16,49 @@ export const categoryFinder = (cards, category) => {
 //Function for searchbar on homepage
 export const searchAll = (cards, keyword, searchTags) => {
   let output = {};
-  if (!keyword) return;
+  if (!keyword.length && !searchTags.length) return;
   //al string converted to lowercase, underscore repalced with space
   const lowerKeyword = keyword.toLowerCase();
   if (cards) {
     for (let [itemId, value] of Object.entries(cards)) {
       const name = characterSwap(value.name, "_", " ").toLowerCase();
-      if (name.includes(lowerKeyword)) {
-        output[itemId] = { ...value };
-        continue;
-      }
-      if (value.description) {
-        const description = value.description.toLowerCase();
-        if (description.includes(lowerKeyword)) {
+      if (lowerKeyword.length) {
+        if (name.includes(lowerKeyword)) {
           output[itemId] = { ...value };
           continue;
         }
-      }
-      if (value.ingredients) {
-        const ingredients = value.ingredients.map(ingredient =>
-          ingredient.toLowerCase()
-        );
-        if (ingredients.includes(lowerKeyword)) {
-          output[itemId] = { ...value };
-          continue;
-        }
-      }
-      if (value.tags) {
-        const lowerTags = value.tags.map(tag => tag.toLowerCase());
-        if (lowerTags.includes(lowerKeyword)) {
-          output[itemId] = { ...value };
-          continue;
-        }
-        //Convert searchTags which is an object, to an array
-        let searchTagsArr = [];
-        for (let [tag, bool] of Object.entries(searchTags)) {
-          if (bool) searchTagsArr.push(tag);
-        }
-
-        //check to see if this item has all tags searched
-        if (searchTagsArr.length) {
-          if (searchTagsArr.every(searchTag => tags.includes(searchTag))) {
+        if (value.description) {
+          const description = value.description.toLowerCase();
+          if (description.includes(lowerKeyword)) {
             output[itemId] = { ...value };
-            // console.log("passed by tag", value.name);
             continue;
           }
+        }
+        if (value.ingredients) {
+          const ingredients = value.ingredients.map((ingredient) =>
+            ingredient.toLowerCase()
+          );
+          if (ingredients.includes(lowerKeyword)) {
+            output[itemId] = { ...value };
+            continue;
+          }
+        }
+        if (value.tags) {
+          const lowerTags = value.tags.map((tag) => tag.toLowerCase());
+          if (lowerTags.includes(lowerKeyword)) {
+            output[itemId] = { ...value };
+            continue;
+          }
+        }
+      }
+
+      //check to see if this item has all tags searched
+      if (searchTags.length) {
+        // console.log("searchTags", searchTags, "value.tags", value.tags);
+        if (searchTags.every((searchTag) => value.tags.includes(searchTag))) {
+          output[itemId] = { ...value };
+          // console.log("passed by tag", value.name);
+          continue;
         }
       }
     }
