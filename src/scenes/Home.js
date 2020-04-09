@@ -16,7 +16,7 @@ import ListBody from "../components/ListBody";
 import Tag from "../components/Tag";
 import NewButton from "../components/NewButton";
 import { saveToLocal, readFromLocal } from "../utils/infoSaver";
-
+import { uniqueId } from "../utils/uniqueId";
 import { sampleData } from "../assets/sampleData";
 
 const testArr = [
@@ -28,7 +28,10 @@ const meals = ["Dinner", "Lunch", "Breakfast"];
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
   const [allTags, setAllTags] = useState([]);
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState({
+    [uniqueId()]: { name: "food", icon: "hamburger", type: "FontAwesome5" },
+    [uniqueId()]: { name: "drinks", icon: "cocktail", type: "FontAwesome5" },
+  });
 
   const categoriesList = [];
   if (categories) {
