@@ -1,33 +1,39 @@
-import { Container, Card, CardItem, Body, Content, Text } from "native-base";
 import React, { useState, useEffect } from "react";
-import ReactNative from "react-native";
-import { StyleSheet, View } from "react-native";
+import ResultOverviewItem from "../components/ResultOverviewItem";
+import {
+  Container,
+  Card,
+  CardItem,
+  Body,
+  Content,
+  Text,
+  List,
+} from "native-base";
 import DisplayCard from "../components/DisplayCard";
 import { searchAll } from "../utils/SearchFunctions";
-export default function Category({ route }) {
+
+export default function ({ route }) {
   const { cards, searchTags, searchStr } = route.params;
   const [cardsOfThisCategory, setCardsOfThisCategory] = useState();
-  // const tagObj = {};
-  // for (tag of category.tags) {
-  //   tagObj[tag] = true;
-  // }
-  // console.log("tagobj", tagObj);
+
   useEffect(() => {
-    setCardsOfThisCategory((prev) => searchAll(cards, searchStr || "", searchTags));
+    setCardsOfThisCategory((prev) =>
+      searchAll(cards, searchStr || "", searchTags)
+    );
   }, [cards]);
 
   const Cards = [];
-  if (Object.keys(cardsOfThisCategory).length) {
-   
+  if (cardsOfThisCategory && Object.keys(cardsOfThisCategory).length) {
     for (let [key, value] of Object.entries(cardsOfThisCategory)) {
       Cards.push(
-        <DisplayCard
+        <ResultOverviewItem
           cardId={key}
           name={value.name}
           description={value.description}
           uri={value.uri}
           key={key}
           ingredients={value.ingredients}
+          rating={value.rating}
           tags={value.tags}
           setCards={setCardsOfThisCategory}
         />
@@ -36,16 +42,9 @@ export default function Category({ route }) {
   }
   return (
     <Container>
-      <Content>{Cards}</Content>
+      <Content>
+        <List>{Cards}</List>
+      </Content>
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

@@ -77,10 +77,12 @@ export default function Home({ navigation }) {
   );
   useEffect(() => {
     const availabeTags = [];
-    for (let [cardId, cardValue] of Object.entries(cards)) {
-      for (let tag of cardValue.tags) {
-        if (!availabeTags.includes(tag)) {
-          availabeTags.push(tag);
+    if (cards && Object.keys(cards).length) {
+      for (let [cardId, cardValue] of Object.entries(cards)) {
+        for (let tag of cardValue.tags) {
+          if (!availabeTags.includes(tag)) {
+            availabeTags.push(tag);
+          }
         }
       }
     }

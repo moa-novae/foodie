@@ -37,6 +37,7 @@ export const sampleData = {
   },
   [uniqueId()]: {
     name: "pesto_pasta",
+    rating: 4.2,
     ingredients: ["garlic", "basil", "olive oil", "pasta", "cherry tomatoes"],
     tags: ["dinner", "food"],
     description: "A traditional pasta that is good on any day",

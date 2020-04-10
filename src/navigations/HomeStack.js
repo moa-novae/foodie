@@ -11,6 +11,7 @@ import CreateNew from "../scenes/CreateNewCard";
 import Camera from "../scenes/Camera";
 import ShowImage from "../scenes/ShowImage";
 import CreateNewCategory from "../scenes/CreateNewCategory";
+import ResultOverview from '../scenes/ResultOverview'
 
 const homeHeader = function (navigation, route) {
   return {
@@ -66,6 +67,12 @@ export default function HomeStack() {
         component={Category}
         options={{ ...TransitionPresets.SlideFromRightIOS }}
       />
+      <Stack.Screen
+        name="ResultOverview"
+        component={ResultOverview}
+        options={{ ...TransitionPresets.SlideFromRightIOS }}
+      />
+
       <Stack.Screen
         name="CreateNew"
         component={CreateNew}

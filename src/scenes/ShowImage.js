@@ -3,7 +3,7 @@ import { Container, Content, Text } from "native-base";
 import { ImageBackground, View, Dimensions } from "react-native";
 import { ImageManipulator } from "expo-image-crop";
 
-export default function({ route, navigation }) {
+export default function ({ route, navigation }) {
   const { uri, setForm } = route.params;
   const [editorVisible, setEditorVisible] = useState(true);
   return (
@@ -15,7 +15,7 @@ export default function({ route, navigation }) {
             justifyContent: "center",
             padding: 20,
             alignItems: "center",
-            backgroundColor: "black"
+            backgroundColor: "black",
           }}
           resizeMode="contain"
           source={{ uri }}
@@ -24,12 +24,13 @@ export default function({ route, navigation }) {
           <ImageManipulator
             isVisible={editorVisible}
             photo={{ uri }}
-            ratio={{ width: 1, height: 1 }}
             onToggleModal={() => {
-              setEditorVisible(prev => !prev);
-              navigation.navigate('CreateNew');
+              setEditorVisible((prev) => !prev);
+              navigation.navigate("CreateNew");
             }}
-            onPictureChoosed={({ uri }) => setForm(prev => ({...prev, uri}))}
+            onPictureChoosed={({ uri }) =>
+              setForm((prev) => ({ ...prev, uri }))
+            }
           />
         </View>
       </View>

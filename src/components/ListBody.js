@@ -25,7 +25,7 @@ export default function CardHeader(props) {
       button
       icon
       onPress={() =>
-        props.navigation.navigate("Category", {
+        props.navigation.navigate("ResultOverview", {
           cards: props.cards,
           setCards: props.setCards,
           searchTags: category.tags,

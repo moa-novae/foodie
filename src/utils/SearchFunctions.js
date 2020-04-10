@@ -19,7 +19,7 @@ export const searchAll = (cards, keyword, searchTags) => {
   if (!keyword.length && !searchTags.length) return;
   //al string converted to lowercase, underscore repalced with space
   const lowerKeyword = keyword.toLowerCase();
-  if (Object.keys(cards).length) {
+  if (cards && Object.keys(cards).length) {
     for (let [itemId, value] of Object.entries(cards)) {
       let name = "";
       if (value.name) {
