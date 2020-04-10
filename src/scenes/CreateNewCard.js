@@ -9,34 +9,24 @@ import {
   Form,
   Input,
   Icon,
-  Button
+  Button,
 } from "native-base";
 import { TouchableOpacity, ScrollView, View, Image } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import { Rating } from "react-native-ratings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Ingredient from "../components/addIngredients";
 import Tag from "../components/addTags";
+import PhotoSelection from "../components/PhotoSelection";
 import { saveToLocal } from "../utils/infoSaver";
 import { uniqueId } from "../utils/uniqueId";
 
-export default function({ navigation }) {
+export default function ({ navigation }) {
   const [form, setForm] = useState({ ingredients: [], tags: [] });
 
-
   //refactor ingredients and taggs to one general function
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      quality: 1
-    });
-
-    if (!result.cancelled) {
-      setForm(prev => ({...prev, uri: result.uri}));
-      navigation.navigate("ShowImage", { uri: result.uri, setForm });
-    }
-  };
 
   const getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -47,22 +37,22 @@ export default function({ navigation }) {
     }
   };
 
-  const addIngredients = function() {
-    setForm(prev => ({
+  const addIngredients = function () {
+    setForm((prev) => ({
       ...prev,
-      ingredients: [...prev.ingredients, ""]
+      ingredients: [...prev.ingredients, ""],
     }));
   };
-  const addTags = function() {
-    setForm(prev => ({
+  const addTags = function () {
+    setForm((prev) => ({
       ...prev,
-      tags: [...prev.tags, ""]
+      tags: [...prev.tags, ""],
     }));
   };
 
   let ingredients = [];
   if (form.ingredients.length) {
-    ingredients = form.ingredients.map(function(ingredient, index) {
+    ingredients = form.ingredients.map(function (ingredient, index) {
       return (
         <Ingredient
           text={ingredient}
@@ -76,7 +66,7 @@ export default function({ navigation }) {
   }
   let tags = [];
   if (form.tags.length) {
-    tags = form.tags.map(function(tag, index) {
+    tags = form.tags.map(function (tag, index) {
       return (
         <Tag
           key={`ingredient ${index}`}
@@ -97,26 +87,26 @@ export default function({ navigation }) {
           enableOnAndroid={true}
           extraHeight={Platform.select({ android: 100 })}
           enableAutomaticScroll={Platform.OS === "ios"}
-          style={{ flex: 1, flexDirection: "column" }}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
           behavior="padding"
           enabled
           keyboardVerticalOffset={100}
         >
-          <Form>
+          <Form style={{ flex: 1, justifyContent: "center" }}>
             <Item floatingLabel style={{ height: 50 }}>
               <Label>Name</Label>
               <Input
-                onChangeText={text => {
-                  setForm(prev => ({ ...prev, name: text }));
+                onChangeText={(text) => {
+                  setForm((prev) => ({ ...prev, name: text }));
                 }}
                 value={form.name}
               />
             </Item>
             <Item floatingLabel style={{ height: 50 }}>
-              {/* <Label style={{ height: 50 }}>Description</Label> */}
+              <Label style={{ height: 50 }}>Description</Label>
               <Input
-                onChangeText={description => {
-                  setForm(prev => ({ ...prev, description }));
+                onChangeText={(description) => {
+                  setForm((prev) => ({ ...prev, description }));
                 }}
                 value={form.description}
               />
@@ -127,8 +117,8 @@ export default function({ navigation }) {
                 imageSize={40}
                 fractions={1}
                 showRating
-                onFinishRating={rating => {
-                  setForm(prev => ({ ...prev, rating }));
+                onFinishRating={(rating) => {
+                  setForm((prev) => ({ ...prev, rating }));
                 }}
               />
             </Item>
@@ -152,26 +142,11 @@ export default function({ navigation }) {
               <Icon name="pluscircleo" type="AntDesign" />
               <Text>Add more</Text>
             </TouchableOpacity>
-            <Button
-              onPress={() => {
-                navigation.navigate("Camera", { setForm });
-              }}
-            >
-              <Text>Camera</Text>
-            </Button>
-            <Button onPress={() => pickImage()}>
-              <Text>Photo Albumn</Text>
-            </Button>
-
-            <Item>
-              {form.uri && (
-                <Image
-                  source={{ uri: form.uri }}
-                  resizeMode="contain"
-                  style={{ width: 300, height: 300 }}
-                />
-              )}
-            </Item>
+            <PhotoSelection
+              form={form}
+              setForm={setForm}
+              navigation={navigation}
+            />
           </Form>
           <Button
             onPress={() => {
