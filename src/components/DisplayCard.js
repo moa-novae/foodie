@@ -29,7 +29,7 @@ export default function (props) {
         />
       </CardItem>
       <CardItem>
-        <Text>{characterSwap(props.name, "_", " ")}</Text>
+        <Text>{props.name && characterSwap(props.name, "_", " ")}</Text>
       </CardItem>
       <CardItem>
         <Text>{props.description}</Text>

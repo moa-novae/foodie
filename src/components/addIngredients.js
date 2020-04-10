@@ -7,13 +7,15 @@ export default function Ingredient(props) {
       <Input
         placeholder="ingredient"
         defaultValue={props.form.ingredients[props.index]}
-        onChangeText={ingredient =>
-          props.setForm(prev => {
-            let output = { ...prev };
-            output.ingredients[props.index] = ingredient;
-            return output;
-          })
-        }
+        onChangeText={(ingredient) => {
+          if (ingredient.trim().length) {
+            props.setForm((prev) => {
+              let output = { ...prev };
+              output.ingredients[props.index] = ingredient;
+              return output;
+            });
+          }
+        }}
       />
     </Item>
   );
