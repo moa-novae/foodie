@@ -24,7 +24,11 @@ import { saveToLocal } from "../utils/infoSaver";
 import { uniqueId } from "../utils/uniqueId";
 
 export default function ({ navigation }) {
-  const [form, setForm] = useState({ ingredients: [], tags: [] });
+  const [form, setForm] = useState({
+    ingredients: [],
+    tags: [],
+    rating: "2.5",
+  });
 
   //refactor ingredients and taggs to one general function
 
@@ -112,15 +116,24 @@ export default function ({ navigation }) {
               />
             </Item>
             <Item>
-              <Label style={{ height: 50 }}>Rating</Label>
-              <Rating
-                imageSize={40}
-                fractions={1}
-                showRating
-                onFinishRating={(rating) => {
-                  setForm((prev) => ({ ...prev, rating }));
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-              />
+              >
+                <Rating
+                  imageSize={40}
+                  fractions={1}
+                  onFinishRating={(rating) => {
+                    setForm((prev) => ({ ...prev, rating }));
+                  }}
+                  style={{ margin: 5 }}
+                />
+                <Text style={{ margin: 5, fontSize: 20, color: '#f1c40f' }}>{form.rating}/5</Text>
+              </View>
             </Item>
             <Text>Ingredients</Text>
             {ingredients}
