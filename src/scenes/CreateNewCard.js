@@ -29,9 +29,6 @@ export default function ({ navigation }) {
     tags: [],
     rating: 2.5,
   });
-
-  //refactor ingredients and taggs to one general function
-
   const getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -40,27 +37,6 @@ export default function ({ navigation }) {
       }
     }
   };
-
-  const addTags = function () {
-    setForm((prev) => ({
-      ...prev,
-      tags: [...prev.tags, ""],
-    }));
-  };
-
-  let tags = [];
-  if (form.tags.length) {
-    tags = form.tags.map(function (tag, index) {
-      return (
-        <Tag
-          key={`ingredient ${index}`}
-          index={index}
-          form={form}
-          setForm={setForm}
-        />
-      );
-    });
-  }
 
   return (
     <Container>
