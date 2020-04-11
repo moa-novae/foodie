@@ -17,7 +17,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import { Rating } from "react-native-ratings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Ingredient from "../components/addIngredients";
+import MultiField from "../components/MultiField";
 import Tag from "../components/addTags";
 import PhotoSelection from "../components/PhotoSelection";
 import { saveToLocal } from "../utils/infoSaver";
@@ -27,7 +27,7 @@ export default function ({ navigation }) {
   const [form, setForm] = useState({
     ingredients: [],
     tags: [],
-    rating: "2.5",
+    rating: 2.5,
   });
 
   //refactor ingredients and taggs to one general function
@@ -41,12 +41,6 @@ export default function ({ navigation }) {
     }
   };
 
-  const addIngredients = function () {
-    setForm((prev) => ({
-      ...prev,
-      ingredients: [...prev.ingredients, ""],
-    }));
-  };
   const addTags = function () {
     setForm((prev) => ({
       ...prev,
@@ -54,20 +48,6 @@ export default function ({ navigation }) {
     }));
   };
 
-  let ingredients = [];
-  if (form.ingredients.length) {
-    ingredients = form.ingredients.map(function (ingredient, index) {
-      return (
-        <Ingredient
-          text={ingredient}
-          key={`ingredient ${index}`}
-          index={index}
-          form={form}
-          setForm={setForm}
-        />
-      );
-    });
-  }
   let tags = [];
   if (form.tags.length) {
     tags = form.tags.map(function (tag, index) {
@@ -96,31 +76,39 @@ export default function ({ navigation }) {
           enabled
           keyboardVerticalOffset={100}
         >
-          <Form style={{ flex: 1, justifyContent: "center" }}>
-            <Item floatingLabel style={{ height: 50 }}>
-              <Label>Name</Label>
+          <Form
+            style={{
+              flex: 1,
+              marginHorizontal: 20,
+              marginVertical: 15,
+              minHeight: 50,
+            }}
+          >
+            <Item regular style={{ marginVertical: 10 }}>
               <Input
                 onChangeText={(text) => {
                   setForm((prev) => ({ ...prev, name: text }));
                 }}
                 value={form.name}
+                placeholder="Name"
               />
             </Item>
-            <Item floatingLabel style={{ height: 50 }}>
-              <Label style={{ height: 50 }}>Description</Label>
+            <Item regular style={{ marginVertical: 10, minHeight: 50 }}>
               <Input
                 onChangeText={(description) => {
                   setForm((prev) => ({ ...prev, description }));
                 }}
                 value={form.description}
+                placeholder="Description"
+                multiline
               />
             </Item>
-            <Item>
+            <Item style={{ borderColor: "transparent" }}>
               <View
                 style={{
                   flex: 1,
                   flexDirection: "row",
-                  justifyContent: "center",
+                  justifyContent: "flex-start",
                   alignItems: "center",
                 }}
               >
@@ -132,29 +120,25 @@ export default function ({ navigation }) {
                   }}
                   style={{ margin: 5 }}
                 />
-                <Text style={{ margin: 5, fontSize: 20, color: '#f1c40f' }}>{form.rating}/5</Text>
+                <Text style={{ margin: 5, fontSize: 20, color: "#f1c40f" }}>
+                  {form.rating}/5
+                </Text>
               </View>
             </Item>
-            <Text>Ingredients</Text>
-            {ingredients}
-            <TouchableOpacity
-              onPress={() => {
-                addIngredients();
-              }}
-            >
-              <Icon name="pluscircleo" type="AntDesign" />
-              <Text>Add more</Text>
-            </TouchableOpacity>
-            <Text>Tags</Text>
-            {tags}
-            <TouchableOpacity
-              onPress={() => {
-                addTags();
-              }}
-            >
-              <Icon name="pluscircleo" type="AntDesign" />
-              <Text>Add more</Text>
-            </TouchableOpacity>
+            <MultiField
+              setForm={setForm}
+              form={form}
+              placeholder="Ingredient"
+              title="Ingredients"
+              formKey="ingredients"
+            />
+            <MultiField
+              setForm={setForm}
+              form={form}
+              placeholder="Tag"
+              title="Tags"
+              formKey="tags"
+            />
             <PhotoSelection
               form={form}
               setForm={setForm}
@@ -176,3 +160,9 @@ export default function ({ navigation }) {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  textField: {
+    marginVertical: 10,
+  },
+});
