@@ -12,7 +12,7 @@ import {
 import DisplayCard from "../components/DisplayCard";
 import { searchAll } from "../utils/SearchFunctions";
 
-export default function ({ route }) {
+export default function ({ route, navigation }) {
   const { cards, searchTags, searchStr } = route.params;
   const [cardsOfThisCategory, setCardsOfThisCategory] = useState();
 
@@ -24,18 +24,14 @@ export default function ({ route }) {
 
   const Cards = [];
   if (cardsOfThisCategory && Object.keys(cardsOfThisCategory).length) {
-    for (let [key, value] of Object.entries(cardsOfThisCategory)) {
+    for (let [cardId, card] of Object.entries(cardsOfThisCategory)) {
       Cards.push(
         <ResultOverviewItem
-          cardId={key}
-          name={value.name}
-          description={value.description}
-          uri={value.uri}
-          key={key}
-          ingredients={value.ingredients}
-          rating={value.rating}
-          tags={value.tags}
+          cardId={cardId}
+          card={card}
+          key={cardId}
           setCards={setCardsOfThisCategory}
+          navigation={navigation}
         />
       );
     }
