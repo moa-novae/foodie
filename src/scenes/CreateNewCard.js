@@ -25,8 +25,8 @@ import { uniqueId } from "../utils/uniqueId";
 
 export default function ({ navigation }) {
   const [form, setForm] = useState({
-    ingredients: [],
-    tags: [],
+    ingredients: { [uniqueId()]: "" },
+    tags: { [uniqueId()]: "" },
     rating: 2.5,
   });
   const getPermissionAsync = async () => {

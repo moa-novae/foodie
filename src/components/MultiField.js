@@ -1,9 +1,10 @@
 import React from "react";
 import { Item, Input, Text, Icon, Button } from "native-base";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { uniqueId } from "../utils/uniqueId";
 
 const SingleField = function (props) {
-  const { placeholder, value, setForm, formKey, index } = props;
+  const { placeholder, value, setForm, formKey } = props;
   return (
     <Item regular style={styles.singleField}>
       <Input
@@ -12,7 +13,7 @@ const SingleField = function (props) {
         onChangeText={(text) => {
           setForm((prev) => {
             let output = { ...prev };
-            output[formKey][index] = text;
+            output[formKey][id] = text;
             return output;
           });
         }}
@@ -24,24 +25,46 @@ const SingleField = function (props) {
 export default function MultiField(props) {
   const { formKey, form, placeholder, setForm, title } = props;
   const addField = function () {
-    setForm((prev) => ({
-      ...prev,
-      [formKey]: [...prev[formKey], ""],
-    }));
+    setForm((prev) => {
+      const output = { ...prev };
+      output[formKey][uniqueId()] = "";
+      return output;
+    });
   };
   let fieldCollection = [];
-  if (form[formKey].length) {
-    fieldCollection = form[formKey].map(function (input, index) {
+  if (Object.keys(form[formKey]).length) {
+    fieldCollection = Object.entries(form[formKey]).map(function ([id, value]) {
       return (
-        <SingleField
-          value={input}
-          key={`${placeholder} ${index}`}
-          index={index}
-          form={form}
-          setForm={setForm}
-          placeholder={placeholder}
-          formKey={formKey}
-        />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+          }}
+        >
+          <SingleField
+            value={value}
+            key={id}
+            id={id}
+            form={form}
+            setForm={setForm}
+            placeholder={placeholder}
+            formKey={formKey}
+          />
+          <Icon
+            name="delete"
+            type="AntDesign"
+            style={{ fontSize: 30 }}
+            onPress={() => {
+              setForm((prev) => {
+                const newForm = { ...prev };
+                delete newForm[formKey][id];
+                return newForm;
+              });
+            }}
+          />
+        </View>
       );
     });
   }
@@ -69,7 +92,7 @@ export default function MultiField(props) {
 
 const styles = StyleSheet.create({
   addFieldButton: { width: 150, marginVertical: 7 },
-  addFieldButtonContainer: { flex: 1, alignItems: "flex-end" },
+  addFieldButtonContainer: { flex: 1, alignItems: "flex-end", marginRight: 39 },
   singleField: { marginVertical: 3, width: 330 },
-  fieldsTitle: {fontSize: 18, marginVertical: 7}
+  fieldsTitle: { fontSize: 18, marginVertical: 7 },
 });
