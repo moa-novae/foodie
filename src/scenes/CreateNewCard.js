@@ -60,7 +60,7 @@ export default function ({ navigation }) {
               minHeight: 50,
             }}
           >
-            <Item regular style={{ marginVertical: 10 }}>
+            <Item regular style={styles.textField}>
               <Input
                 onChangeText={(text) => {
                   setForm((prev) => ({ ...prev, name: text }));
@@ -69,7 +69,7 @@ export default function ({ navigation }) {
                 placeholder="Name"
               />
             </Item>
-            <Item regular style={{ marginVertical: 10, minHeight: 50 }}>
+            <Item regular style={styles.textField}>
               <Input
                 onChangeText={(description) => {
                   setForm((prev) => ({ ...prev, description }));
@@ -122,14 +122,17 @@ export default function ({ navigation }) {
             />
           </Form>
           <Button
+            
             onPress={() => {
               console.log("form", form);
               const cardId = uniqueId();
               saveToLocal("cards", { [cardId]: { ...form, cardId } });
               navigation.navigate("Home");
             }}
+            style={styles.saveButton}
           >
-            <Text>Print form</Text>
+            <Icon name="save" type="AntDesign" />
+            <Text>Save Food</Text>
           </Button>
         </KeyboardAwareScrollView>
       </Content>
@@ -140,5 +143,13 @@ export default function ({ navigation }) {
 const styles = StyleSheet.create({
   textField: {
     marginVertical: 10,
+    backgroundColor: "#f0f0f0",
+    minHeight: 50,
+  },
+  saveButton: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: 'center',
+    height: 50
   },
 });
