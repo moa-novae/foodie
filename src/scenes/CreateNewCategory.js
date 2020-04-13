@@ -12,57 +12,9 @@ import {
   List,
   ListItem,
 } from "native-base";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import { uniqueId } from "../utils/uniqueId";
-
-const sampleColor = [
-  "red",
-  "orange",
-  "yellow",
-  "lime",
-  "green",
-  "olive",
-  "cyan",
-  "aquamarine",
-  "turquoise",
-  "teal",
-  "blue",
-  "navy",
-  "indigo",
-  "purple",
-  "magenta",
-  "violet",
-  "tan",
-  "brown",
-  "maroon",
-  // "white",
-  "gray",
-  "black",
-];
-
-const sampleIcons = [
-  "hamburger",
-  "bacon",
-  "bone",
-  "bread-slice",
-  "candy-cane",
-  "carrot",
-  "cheese",
-  "cloud-meatball",
-  "cookie",
-  "drumstick-bite",
-  "egg",
-  "fish",
-  "hotdog",
-  "ice-cream",
-  "leaf",
-  "lemon",
-  "pepper-hot",
-  "pizza-slice",
-  "seedling",
-  "stroopwafel",
-];
 
 const filterData = function (query, dataSet) {
   const output = [];
@@ -74,105 +26,146 @@ const filterData = function (query, dataSet) {
   return output;
 };
 
-export default function ({ route }) {
+export default function ({ route, navigation }) {
   const [newCategory, setNewCategory] = useState({
     name: null,
     tags: [],
     icon: null,
-    iconColor: null,
+    iconColor: "red",
   });
   const { allTags, setCategories } = route.params;
   const [tagQuery, setTagQuery] = useState("");
 
   const [showAutoComplete, setShowAutoComplete] = useState(false);
-  const buttons = sampleColor.map((color, index) => (
-    <Button
-      style={{ backgroundColor: color, width: 60, height: 40, margin: 3 }}
-      onPress={() => setNewCategory((prev) => ({ ...prev, iconColor: color }))}
-      key={index}
-    />
-  ));
-  const foodIcons = sampleIcons.map((icon, index) => (
-    <Button transparent>
-      <Icon
-        name={icon}
-        key={index}
-        type="FontAwesome5"
-        onPress={() => setNewCategory((prev) => ({ ...prev, icon }))}
-        style={{ color: newCategory.iconColor }}
-      />
-    </Button>
-  ));
 
-  const tags = newCategory.tags.map((tag) => <Text>{tag}</Text>);
+  let tags;
+  if (newCategory && newCategory.tags) {
+    tags = newCategory.tags.map((tag, index) => (
+      <Button iconRight rounded style={{ margin: 5 }} key={`${tag}: ${index}`}>
+        <Text>{tag}</Text>
+        <Icon
+          name="delete"
+          type="AntDesign"
+          onPress={() => {
+            setNewCategory((prev) => {
+              const output = { ...prev };
+              output.tags.splice(index, 1);
+              return output;
+            });
+          }}
+        />
+      </Button>
+    ));
+  }
   return (
     <Container>
       <Content keyboardShouldPersistTaps="always">
         <View>
-          <Form>
-            <Item floatingLabel>
-              <Label>Name</Label>
+          <Form
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              marginHorizontal: 20,
+              marginVertical: 15,
+              minHeight: 50,
+            }}
+          >
+            <Item regular style={styles.textField}>
               <Input
                 onChangeText={(text) => {
                   setNewCategory((prev) => ({ ...prev, name: text }));
                 }}
                 value={newCategory.name}
+                placeholder="Name"
               />
             </Item>
-          </Form>
-        </View>
-        <Autocomplete
-          data={showAutoComplete ? filterData(tagQuery, allTags) : []}
-          defaultValue={tagQuery}
-          onSubmitEditing={() => {
-            setNewCategory((prev) => {
-              const newState = { ...prev };
-              if (!newState.tags.includes(tagQuery))
-                newState.tags.push(tagQuery);
-              return newState;
-            });
-          }}
-          onChangeText={(query) => {
-            setShowAutoComplete((prev) => true);
-            setTagQuery((prev) => query);
-          }}
-          renderItem={({ item, i }) => (
-            <TouchableOpacity
-              key={i}
-              onPress={() => {
-                setShowAutoComplete((prev) => false);
-                setTagQuery((prev) => item);
+            <Item regular>
+              <Autocomplete
+                renderTextInput={() => (
+                  <Input
+                    style={{ backgroundColor: "#f0f0f0", minHeight: 50 }}
+                    value={tagQuery}
+                    placeholder="Search Tag Here"
+                    defaultValue=""
+                    onSubmitEditing={() => {
+                      if (tagQuery) {
+                        setNewCategory((prev) => {
+                          const newState = { ...prev };
+                          if (!newState.tags.includes(tagQuery))
+                            newState.tags.push(tagQuery);
+                          return newState;
+                        });
+                        setTagQuery((prev) => null);
+                      }
+                    }}
+                    onChangeText={(query) => {
+                      setTagQuery((prev) => query);
+                      setShowAutoComplete((prev) => true);
+                    }}
+                  />
+                )}
+                inputContainerStyle={{ borderColor: "transparent" }}
+                data={showAutoComplete ? filterData(tagQuery, allTags) : []}
+                defaultValue={tagQuery}
+                renderItem={({ item, i }) => (
+                  <TouchableOpacity
+                    key={i}
+                    onPress={() => {
+                      setShowAutoComplete((prev) => false);
+                      setTagQuery((prev) => item);
+                    }}
+                  >
+                    <Text>{item}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </Item>
+            <Item
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignContent: "center",
+                justifyContent: "flex-start",
+                flexWrap: "wrap",
               }}
             >
-              <Text>{item}</Text>
-            </TouchableOpacity>
-          )}
-        />
-        {tags}
-        <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-          <Text>Selected Color</Text>
-          <Button
-            style={{
-              backgroundColor: newCategory.iconColor,
-              width: 60,
-              height: 40,
-              margin: 3,
-            }}
-          />
-        </View>
-        <Text>Pick a color</Text>
-
-        <View style={{ flexGrow: 1, flexDirection: "row", flexWrap: "wrap" }}>
-          {buttons}
-        </View>
-        <Text>Pick an Icon</Text>
-        <Icon
-          name={newCategory.icon}
-          type="FontAwesome5"
-          style={{ color: newCategory.iconColor }}
-        />
-        <View style={{ flexGrow: 1, flexDirection: "row", flexWrap: "wrap" }}>
-          {foodIcons}
+              {tags}
+            </Item>
+            <View
+              style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+            >
+              <Text>Select A Color</Text>
+              <Button
+                style={{
+                  backgroundColor: newCategory.iconColor,
+                  width: 50,
+                  height: 25,
+                  margin: 10,
+                }}
+                onPress={() => {
+                  navigation.navigate("ChooseColor", { setNewCategory });
+                }}
+              />
+            </View>
+            <View
+              style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+            >
+              <Text>Pick an Icon</Text>
+              <Icon
+                name={newCategory.icon || "hamburger"}
+                type="FontAwesome5"
+                style={{ color: newCategory.iconColor, margin: 10 }}
+                onPress={() => {
+                  navigation.navigate("ChooseIcon", {
+                    setNewCategory,
+                    newCategory,
+                  });
+                }}
+              />
+            </View>
+          </Form>
         </View>
         <Button onPress={() => console.log("new category", newCategory)}>
           <Text>Print current Form</Text>
@@ -188,3 +181,11 @@ export default function ({ route }) {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  textField: {
+    marginVertical: 10,
+    backgroundColor: "#f0f0f0",
+    minHeight: 50,
+  },
+});

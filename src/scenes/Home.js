@@ -131,7 +131,7 @@ export default function Home({ navigation }) {
           transparent
           iconRight
           onPress={() =>
-            navigation.navigate("CreateNewCategory", { allTags, setCategories })
+            navigation.navigate("CreateNewCategory", { screen: 'CreateNewCategory', params: {allTags, setCategories }})
           }
         >
           <Icon
