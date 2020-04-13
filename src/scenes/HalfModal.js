@@ -87,7 +87,7 @@ export default function HalfModal({ navigation }) {
     for (let [tag, bool] of Object.entries(tagSelected)) {
       if (bool) searchTags.push(tag);
     }
-    navigation.navigate("Category", { cards, searchStr, searchTags });
+    navigation.navigate("ResultOverview", { cards, searchStr, searchTags });
     // console.log('output', output)
   };
   return (

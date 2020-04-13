@@ -173,6 +173,7 @@ export default function ({ route, navigation }) {
         <Button
           onPress={() => {
             setCategories((prev) => ({ ...prev, [uniqueId()]: newCategory }));
+            navigation.goBack();
           }}
         >
           <Text>Save current Form</Text>
