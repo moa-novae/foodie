@@ -36,6 +36,7 @@ export default function MultiField(props) {
     fieldCollection = Object.entries(form[formKey]).map(function ([id, value]) {
       return (
         <View
+          key={id}
           style={{
             flex: 1,
             flexDirection: "row",
@@ -93,6 +94,6 @@ export default function MultiField(props) {
 const styles = StyleSheet.create({
   addFieldButton: { width: 150, marginVertical: 7 },
   addFieldButtonContainer: { flex: 1, alignItems: "flex-end", marginRight: 39 },
-  singleField: { marginVertical: 3, width: 330, backgroundColor: '#f0f0f0' },
+  singleField: { marginVertical: 3, width: 330, backgroundColor: "#f0f0f0" },
   fieldsTitle: { fontSize: 18, marginVertical: 7 },
 });

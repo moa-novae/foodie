@@ -13,12 +13,14 @@ export default function Category({ route }) {
   // }
   // console.log("tagobj", tagObj);
   useEffect(() => {
-    setCardsOfThisCategory((prev) => searchAll(cards, searchStr || "", searchTags));
+    setCardsOfThisCategory((prev) =>
+      searchAll(cards, searchStr || "", searchTags)
+    );
   }, [cards]);
 
   const Cards = [];
-  if (Object.keys(cardsOfThisCategory).length) {
-   
+
+  if (cardsOfThisCategory && Object.keys(cardsOfThisCategory).length) {
     for (let [key, value] of Object.entries(cardsOfThisCategory)) {
       Cards.push(
         <DisplayCard
