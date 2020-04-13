@@ -88,7 +88,7 @@ export default function Home({ navigation }) {
     }
     setAllTags((prev) => availabeTags);
   }, [cards]);
-  // console.log("allTags", allTags);
+
   return (
     <Container style={{ backgroundColor: "#ffffff" }}>
       <Content>
@@ -131,7 +131,10 @@ export default function Home({ navigation }) {
           transparent
           iconRight
           onPress={() =>
-            navigation.navigate("CreateNewCategory", { screen: 'CreateNewCategory', params: {allTags, setCategories }})
+            navigation.navigate("CreateNewCategory", {
+              screen: "CreateNewCategory",
+              params: { allTags, setCategories },
+            })
           }
         >
           <Icon

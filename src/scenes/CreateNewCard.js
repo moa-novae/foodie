@@ -122,11 +122,24 @@ export default function ({ navigation }) {
             />
           </Form>
           <Button
-            
             onPress={() => {
-              console.log("form", form);
               const cardId = uniqueId();
-              saveToLocal("cards", { [cardId]: { ...form, cardId } });
+              const savedCard = { [cardId]: { ...form, cardId } };
+              //in the form state, tags/ingredients are stored as object. It is then converted to an array
+              const tagArr = [];
+              const ingredientArr = [];
+              for (let [tagId, tag] of Object.entries(savedCard[cardId].tags)) {
+                tagArr.push(tag);
+              }
+              for (let [ingredientId, ingredient] of Object.entries(
+                savedCard[cardId].ingredients
+              )) {
+                ingredientArr.push(ingredient);
+              }
+              savedCard[cardId].ingredients = ingredientArr;
+              savedCard[cardId].tags = tagArr;
+              // console.log("savedCard", savedCard);
+              saveToLocal("cards", savedCard);
               navigation.navigate("Home");
             }}
             style={styles.saveButton}
@@ -149,7 +162,7 @@ const styles = StyleSheet.create({
   saveButton: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: 'center',
-    height: 50
+    justifyContent: "center",
+    height: 50,
   },
 });

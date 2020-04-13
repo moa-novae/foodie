@@ -30,7 +30,7 @@ export default function ({ route, navigation }) {
   const [newCategory, setNewCategory] = useState({
     name: null,
     tags: [],
-    icon: null,
+    icon: "hamburger",
     iconColor: "red",
   });
   const { allTags, setCategories } = route.params;

@@ -4,7 +4,7 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { uniqueId } from "../utils/uniqueId";
 
 const SingleField = function (props) {
-  const { placeholder, value, setForm, formKey } = props;
+  const { placeholder, value, setForm, formKey, id } = props;
   return (
     <Item regular style={styles.singleField}>
       <Input
