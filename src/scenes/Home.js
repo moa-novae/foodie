@@ -17,7 +17,7 @@ import Tag from "../components/Tag";
 import NewButton from "../components/NewButton";
 import { saveToLocal, readFromLocal } from "../utils/infoSaver";
 import { uniqueId } from "../utils/uniqueId";
-import { sampleData } from "../assets/sampleData";
+import { sampleData, sampleCategories } from "../assets/sampleData";
 
 const testArr = [
   { name: "Food", icon: "utensils" },
@@ -28,22 +28,7 @@ const meals = ["Dinner", "Lunch", "Breakfast"];
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
   const [allTags, setAllTags] = useState([]);
-  const [categories, setCategories] = useState({
-    [uniqueId()]: {
-      name: "food",
-      icon: "hamburger",
-      type: "FontAwesome5",
-      iconColor: "blue",
-      tags: ["food"],
-    },
-    [uniqueId()]: {
-      name: "drinks",
-      icon: "cocktail",
-      type: "FontAwesome5",
-      iconColor: "red",
-      tags: ["drinks"],
-    },
-  });
+  const [categories, setCategories] = useState();
 
   const categoriesList = [];
   if (categories) {
@@ -69,12 +54,31 @@ export default function Home({ navigation }) {
           setCards((prev) => JSON.parse(newCards));
         }
       };
+      const fetchCategories = async () => {
+        const updatedCategories = await readFromLocal("categories");
+      };
       fetchNewCards();
       return () => {
         isActive = false;
       };
     }, [])
   );
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+      const fetchCategories = async () => {
+        const updatedCategories = await readFromLocal("categories");
+        if (isActive) {
+          setCategories((prev) => JSON.parse(updatedCategories));
+        }
+      };
+      fetchCategories();
+      return () => {
+        isActive = false;
+      };
+    }, [])
+  );
+
   useEffect(() => {
     const availabeTags = [];
     if (cards && Object.keys(cards).length) {
@@ -110,6 +114,7 @@ export default function Home({ navigation }) {
         <Button
           onPress={() => {
             saveToLocal("cards", { ...sampleData });
+            saveToLocal("categories", { ...sampleCategories });
           }}
         >
           <Text>Seed with Sample Data</Text>
@@ -133,7 +138,7 @@ export default function Home({ navigation }) {
           onPress={() =>
             navigation.navigate("CreateNewCategory", {
               screen: "CreateNewCategory",
-              params: { allTags, setCategories },
+              params: { allTags, setCategories: setCategories },
             })
           }
         >

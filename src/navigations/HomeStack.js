@@ -10,7 +10,6 @@ import Category from "../scenes/Category";
 import CreateNew from "../scenes/CreateNewCard";
 import Camera from "../scenes/Camera";
 import ShowImage from "../scenes/ShowImage";
-import CreateNewCategory from "../scenes/CreateNewCategory";
 import ResultOverview from "../scenes/ResultOverview";
 import CardDetail from "../scenes/CardDetail";
 import CreateCategoryStack from "./CreateCategoryStack";

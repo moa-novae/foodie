@@ -3,12 +3,7 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
 
-import Category from "../scenes/Category";
-import HomeStack from "./HomeStack";
-import HalfModal from "../scenes/HalfModal";
-import { theme } from "../styles/theme";
 import ChooseIcon from "../scenes/ChooseIcon";
 import ChooseColor from "../scenes/ChooseColor";
 import CreateNewCategory from "../scenes/CreateNewCategory";
