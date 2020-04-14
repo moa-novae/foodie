@@ -71,13 +71,16 @@ export default function HomeStack() {
       <Stack.Screen
         name="ResultOverview"
         component={ResultOverview}
-        options={{ ...TransitionPresets.SlideFromRightIOS }}
+        options={{ ...TransitionPresets.SlideFromRightIOS, title: "Results" }}
       />
 
       <Stack.Screen
         name="CreateNew"
         component={CreateNew}
-        options={{ ...TransitionPresets.SlideFromRightIOS }}
+        options={{
+          ...TransitionPresets.SlideFromRightIOS,
+          title: "New Food Entry",
+        }}
       />
       <Stack.Screen
         name="Camera"
@@ -85,11 +88,15 @@ export default function HomeStack() {
         options={{ ...TransitionPresets.SlideFromRightIOS }}
       />
       <Stack.Screen name="ShowImage" component={ShowImage} />
-      <Stack.Screen name="CreateNewCategory" component={CreateCategoryStack} />
+      <Stack.Screen
+        name="CreateNewCategory"
+        component={CreateCategoryStack}
+        options={{ title: "Create New Category" }}
+      />
       <Stack.Screen
         name="CardDetail"
         component={CardDetail}
-        options={{ ...TransitionPresets.SlideFromRightIOS }}
+        options={{ ...TransitionPresets.SlideFromRightIOS, title: "details" }}
       />
     </Stack.Navigator>
   );
