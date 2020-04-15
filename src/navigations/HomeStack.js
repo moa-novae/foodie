@@ -3,6 +3,7 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
+import { Button, Text } from "native-base";
 import { DefaultTheme } from "@react-navigation/native";
 import Home from "../scenes/Home";
 import { Icon } from "native-base";
@@ -32,6 +33,35 @@ const homeHeader = function (navigation, route) {
     ),
   };
 };
+function EditCard(navigation, route) {
+  const { setCards, setCardsOfThisCategory, cardId, card } = route.params;
+  return {
+    headerRight: () => (
+      <Button
+        transparent
+        onPress={() => {
+          navigation.navigate("CreateNew", { card, cardId, title: "EDIT" });
+        }}
+
+        // onPress={() => {
+        //   setCards((prev) => {
+        //     const newCards = { ...prev };
+        //     delete newCards[cardId];
+        //     return newCards;
+        //   });
+        //   setCardsOfThisCategory((prev) => {
+        //     const newCards = { ...prev };
+        //     delete newCards[cardId];
+        //     return newCards;
+        //   });
+        //   navigation.goBack();
+        // }}
+      >
+        <Text style={{ fontSize: 18, color: "#2164ff" }}>EDIT</Text>
+      </Button>
+    ),
+  };
+}
 
 const Stack = createStackNavigator();
 function LogoTitle() {
@@ -96,7 +126,7 @@ export default function HomeStack() {
       <Stack.Screen
         name="CardDetail"
         component={CardDetail}
-        options={{ ...TransitionPresets.SlideFromRightIOS, title: "details" }}
+        options={({ navigation, route }) => EditCard(navigation, route)}
       />
     </Stack.Navigator>
   );

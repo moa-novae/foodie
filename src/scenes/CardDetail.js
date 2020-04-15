@@ -60,13 +60,7 @@ export default function ({ route, navigation }) {
     <Container>
       <Content>
         <List>
-          <ListItem
-            thumbnail
-            style={{ marginVertical: 10 }}
-            onPress={() =>
-              props.navigation.navigate("CardDetail", { card: props.card })
-            }
-          >
+          <ListItem thumbnail style={{ marginVertical: 10 }}>
             <Left>
               <Thumbnail
                 resizeMode="cover"

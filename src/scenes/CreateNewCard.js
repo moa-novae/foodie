@@ -20,23 +20,35 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import MultiField from "../components/MultiField";
 import Tag from "../components/addTags";
 import PhotoSelection from "../components/PhotoSelection";
-import { saveToLocal } from "../utils/infoSaver";
+import { saveToLocal, deleteCard } from "../utils/infoSaver";
 import { uniqueId } from "../utils/uniqueId";
 
-export default function ({ navigation }) {
-  const [form, setForm] = useState({
-    ingredients: { [uniqueId()]: "" },
-    tags: { [uniqueId()]: "" },
-    rating: 2.5,
-  });
-  const getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
+export default function ({ navigation, route }) {
+  let card;
+  let cardId;
+  let oldTag = {};
+  let oldIngredients = {};
+  if (route.params?.card && route.params?.cardId) {
+    ({ card, cardId } = route.params);
+    card.tags.forEach((tag) => {
+      oldTag[uniqueId()] = tag;
+    });
+    card.ingredients.forEach((ingredient) => {
+      oldIngredients[uniqueId()] = ingredient;
+    });
+  }
+
+  const initialState = {
+    name: card ? card.name : "",
+    rating: card ? card.rating : 2.5,
+    description: card ? card.description : "",
+    uri: card ? card.uri : null,
+    tags: Object.keys(oldTag).length ? oldTag : { [uniqueId()]: "" },
+    ingredients: Object.keys(oldIngredients).length
+      ? oldIngredients
+      : { [uniqueId()]: "" },
   };
+  const [form, setForm] = useState(initialState);
 
   return (
     <Container>
@@ -95,6 +107,7 @@ export default function ({ navigation }) {
                     setForm((prev) => ({ ...prev, rating }));
                   }}
                   style={{ margin: 5 }}
+                  startingValue={form.rating}
                 />
                 <Text style={{ margin: 5, fontSize: 20, color: "#f1c40f" }}>
                   {form.rating}/5
@@ -121,32 +134,45 @@ export default function ({ navigation }) {
               navigation={navigation}
             />
           </Form>
-          <Button
-            onPress={() => {
-              const cardId = uniqueId();
-              const savedCard = { [cardId]: { ...form, cardId } };
-              //in the form state, tags/ingredients are stored as object. It is then converted to an array
-              const tagArr = [];
-              const ingredientArr = [];
-              for (let [tagId, tag] of Object.entries(savedCard[cardId].tags)) {
-                tagArr.push(tag);
-              }
-              for (let [ingredientId, ingredient] of Object.entries(
-                savedCard[cardId].ingredients
-              )) {
-                ingredientArr.push(ingredient);
-              }
-              savedCard[cardId].ingredients = ingredientArr;
-              savedCard[cardId].tags = tagArr;
-              // console.log("savedCard", savedCard);
-              saveToLocal("cards", savedCard);
-              navigation.navigate("Home");
-            }}
-            style={styles.saveButton}
-          >
-            <Icon name="save" type="AntDesign" />
-            <Text>Save Food</Text>
-          </Button>
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <Button
+              danger
+              style={styles.saveButton}
+              onPress={() => {
+                deleteCard(cardId);
+                navigation.navigate("Home");
+              }}
+            >
+              <Text>Delete</Text>
+            </Button>
+            <Button
+              onPress={() => {
+                const newCardId = cardId || uniqueId();
+                const savedCard = { [newCardId]: { ...form, cardId } };
+                //in the form state, tags/ingredients are stored as object. It is then converted to an array
+                const tagArr = [];
+                const ingredientArr = [];
+                for (let [tagId, tag] of Object.entries(
+                  savedCard[newCardId].tags
+                )) {
+                  tagArr.push(tag);
+                }
+                for (let [ingredientId, ingredient] of Object.entries(
+                  savedCard[newCardId].ingredients
+                )) {
+                  ingredientArr.push(ingredient);
+                }
+                savedCard[newCardId].ingredients = ingredientArr;
+                savedCard[newCardId].tags = tagArr;
+                saveToLocal("cards", savedCard);
+                navigation.navigate("Home");
+              }}
+              style={styles.saveButton}
+            >
+              <Icon name="save" type="AntDesign" />
+              <Text>Save Food</Text>
+            </Button>
+          </View>
         </KeyboardAwareScrollView>
       </Content>
     </Container>

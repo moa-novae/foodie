@@ -13,7 +13,7 @@ import DisplayCard from "../components/DisplayCard";
 import { searchAll } from "../utils/SearchFunctions";
 
 export default function ({ route, navigation }) {
-  const { cards, searchTags, searchStr } = route.params;
+  const { cards, searchTags, searchStr, setCards } = route.params;
   const [cardsOfThisCategory, setCardsOfThisCategory] = useState();
 
   useEffect(() => {
@@ -30,7 +30,8 @@ export default function ({ route, navigation }) {
           cardId={cardId}
           card={card}
           key={cardId}
-          setCards={setCardsOfThisCategory}
+          setCardsOfThisCategory={setCardsOfThisCategory}
+          setCards={setCards}
           navigation={navigation}
         />
       );

@@ -15,13 +15,19 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import { characterSwap, arrToString } from "../utils/textParser";
 import { Rating } from "react-native-ratings";
 export default function (props) {
+  const { setCards, setCardsOfThisCategory } = props;
   const { uri, name, description, rating, tags, ingredients } = props.card;
   return (
     <ListItem
       thumbnail
       style={{ marginVertical: 10 }}
       onPress={() =>
-        props.navigation.navigate("CardDetail", { card: props.card })
+        props.navigation.navigate("CardDetail", {
+          card: props.card,
+          cardId: props.cardId,
+          setCards,
+          setCardsOfThisCategory,
+        })
       }
     >
       <Left>
