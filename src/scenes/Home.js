@@ -6,11 +6,13 @@ import {
   Icon,
   Button,
   Footer,
+  Text,
 } from "native-base";
 import React, { useEffect, useState, useCallback } from "react";
-import { TouchableOpacity, Text, AsyncStorage } from "react-native";
+import { TouchableOpacity, AsyncStorage } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { SwipeListView } from "react-native-swipe-list-view";
 import ListHeader from "../components/ListHeader";
 import ListBody from "../components/ListBody";
 import Tag from "../components/Tag";
@@ -19,32 +21,47 @@ import { saveToLocal, readFromLocal } from "../utils/infoSaver";
 import { uniqueId } from "../utils/uniqueId";
 import { sampleData, sampleCategories } from "../assets/sampleData";
 
-const testArr = [
-  { name: "Food", icon: "utensils" },
-  { name: "Drinks", icon: "wine-glass" },
-];
-const meals = ["Dinner", "Lunch", "Breakfast"];
-
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
   const [allTags, setAllTags] = useState([]);
   const [categories, setCategories] = useState();
-
+  console.log("categories", categories);
   const categoriesList = [];
-  if (categories) {
+  if (categories && Object.keys(categories).length) {
     for (let [categoryId, category] of Object.entries(categories)) {
-      categoriesList.push(
-        <ListBody
-          key={categoryId}
-          category={category}
-          type="FontAwesome5"
-          navigation={navigation}
-          cards={cards}
-          setCards={setCards}
-        />
-      );
+      categoriesList.push({
+        category,
+        categoryId,
+        navigation,
+        cards,
+        setCards,
+        categoryId,
+        key: categoryId,
+      });
     }
   }
+  const renderCategoryItem = (data) => {
+    console.log("data category", data.item.categoryId);
+    return (
+      <View>
+        {data.item.category && (
+          <ListBody
+            key={data.item.key}
+            category={data.item.category}
+            navigation={data.item.navigation}
+            cards={data.item.cards}
+            setCards={data.item.setCards}
+          />
+        )}
+      </View>
+    );
+  };
+  const renderHiddenCategoryItem = () => (
+    <Button>
+      <Text>Hello</Text>
+    </Button>
+  );
+
   useFocusEffect(
     useCallback(() => {
       let isActive = true;
@@ -96,7 +113,19 @@ export default function Home({ navigation }) {
   return (
     <Container style={{ backgroundColor: "#ffffff" }}>
       <Content>
-        <List>{categoriesList}</List>
+        {/* <List>{categoriesList}</List> */}
+        <View>
+          <SwipeListView
+            data={categoriesList}
+            renderItem={renderCategoryItem}
+            renderHiddenItem={renderHiddenCategoryItem}
+            leftOpenValue={75}
+            previewRowKey={"0"}
+            disableLeftSwipe
+            previewOpenValue={-40}
+            previewOpenDelay={3000}
+          />
+        </View>
         <Button
           onPress={() => {
             readFromLocal("cards").then(console.log);
