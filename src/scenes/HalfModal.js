@@ -56,7 +56,6 @@ export default function HalfModal({ navigation }) {
     const sortedTagCounterArr = tagCounterArr.sort(function (a, b) {
       return b[1] - a[1];
     });
-    console.log("sortedTag", sortedTagCounterArr);
     const sortedTagDesc = sortedTagCounterArr.map(
       (tagCounter) => tagCounter[0]
     );
@@ -83,12 +82,10 @@ export default function HalfModal({ navigation }) {
   const onSearch = (searchStr) => {
     // Convert tagSelected which is an object, to an array
     let searchTags = [];
-    console.log("onSearch", tagSelected);
     for (let [tag, bool] of Object.entries(tagSelected)) {
       if (bool) searchTags.push(tag);
     }
     navigation.navigate("ResultOverview", { cards, searchStr, searchTags });
-    // console.log('output', output)
   };
   return (
     // when clicked outside of the modal, go back to the homepage

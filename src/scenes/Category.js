@@ -7,11 +7,6 @@ import { searchAll } from "../utils/SearchFunctions";
 export default function Category({ route }) {
   const { cards, searchTags, searchStr } = route.params;
   const [cardsOfThisCategory, setCardsOfThisCategory] = useState();
-  // const tagObj = {};
-  // for (tag of category.tags) {
-  //   tagObj[tag] = true;
-  // }
-  // console.log("tagobj", tagObj);
   useEffect(() => {
     setCardsOfThisCategory((prev) =>
       searchAll(cards, searchStr || "", searchTags)

@@ -20,8 +20,8 @@ export default function CardHeader(props) {
 
   return (
     <ListItem
-      noBorder
       style={styles.listItem}
+      noBorder
       button
       icon
       onPress={() =>
@@ -52,12 +52,11 @@ export default function CardHeader(props) {
 
 const styles = StyleSheet.create({
   listItem: {
-    marginTop: 8,
-    marginBottom: 8,
-    marginRight: 15,
-    marginLeft: 15,
-    paddingLeft: 5,
-    paddingRight: 5,
+    backgroundColor: "white",
+    marginVertical: 8,
+    marginHorizontal: 15,
+    paddingHorizontal: 5,
+    height: 45,
   },
   icon: {
     fontSize: 20,

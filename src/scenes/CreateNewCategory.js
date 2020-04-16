@@ -27,13 +27,22 @@ const filterData = function (query, dataSet) {
   return output;
 };
 
+//This component is used for editing and creating new categories
 export default function ({ route, navigation }) {
-  const [newCategory, setNewCategory] = useState({
-    name: null,
-    tags: [],
-    icon: "hamburger",
+  console.log("this is run");
+  let category, categoryId;
+  if (route.params?.category && route.params?.categoryId) {
+    ({ category, categoryId } = route.params);
+  }
+  //category is passed as params when this component is used to edit a category
+  //When editing, the form is filled with info from the category being edited
+  const initialState = {
+    name: category ? category.name : "",
+    tags: category ? category.tags : [],
+    icon: category ? category.icon : "hamburger",
     iconColor: "red",
-  });
+  };
+  const [newCategory, setNewCategory] = useState(initialState);
   const { allTags, setCategories } = route.params;
   const [tagQuery, setTagQuery] = useState("");
 
@@ -163,12 +172,9 @@ export default function ({ route, navigation }) {
             />
           </View>
         </Form>
-        <Button onPress={() => console.log("new category", newCategory)}>
-          <Text>Print current Form</Text>
-        </Button>
         <Button
           onPress={() => {
-            const toBeSavedCategory = { [uniqueId()]: newCategory };
+            const toBeSavedCategory = { [categoryId || uniqueId()]: newCategory };
             setCategories((prev) => ({ ...prev, ...toBeSavedCategory }));
             saveToLocal("categories", toBeSavedCategory);
             navigation.goBack();

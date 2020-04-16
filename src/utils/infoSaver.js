@@ -29,3 +29,15 @@ export const readFromLocal = async function (key) {
   }
   return output;
 };
+
+export const deleteCategoryFromLocal = async function (categoryId) {
+  const currentCategories = await readFromLocal("categories");
+  const currentCategoriesParsed = JSON.parse(currentCategories);
+  delete currentCategoriesParsed[categoryId];
+  const newCategories = JSON.stringify(currentCategoriesParsed);
+  try {
+    await AsyncStorage.setItem("categories", newCategories);
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
