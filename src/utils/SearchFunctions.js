@@ -17,6 +17,9 @@ export const categoryFinder = (cards, category) => {
 export const searchAll = (cards, keyword, searchTags) => {
   let output = {};
   if (!keyword.length && !searchTags.length) return;
+  if (!keyword.length) {
+    output = { ...cards };
+  }
   //al string converted to lowercase, underscore repalced with space
   const lowerKeyword = keyword.toLowerCase();
   if (cards && Object.keys(cards).length) {
@@ -54,13 +57,13 @@ export const searchAll = (cards, keyword, searchTags) => {
           }
         }
       }
-
-      //check to see if this item has all tags searched
-      if (searchTags.length) {
-        if (searchTags.every((searchTag) => value.tags.includes(searchTag))) {
-          output[itemId] = { ...value };
-          continue;
-        }
+    }
+  }
+  //check to see if each current results has all tags searched
+  for (let [itemId, value] of Object.entries(output)) {
+    if (searchTags.length) {
+      if (!searchTags.every((searchTag) => value.tags.includes(searchTag))) {
+        delete output[itemId];
       }
     }
   }
