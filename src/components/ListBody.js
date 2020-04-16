@@ -14,6 +14,7 @@ import {
 } from "native-base";
 import { StyleSheet, View } from "react-native";
 import * as testData from "../assets/sampleData";
+import { capitalizeAsTitle } from "../utils/textParser";
 
 export default function CardHeader(props) {
   const { category } = props;
@@ -43,7 +44,7 @@ export default function CardHeader(props) {
         />
       </Left>
       <Body>
-        <Text>{category.name}</Text>
+        <Text>{capitalizeAsTitle(category.name)}</Text>
       </Body>
       <Right>
         <Icon active name="arrow-forward" />

@@ -12,7 +12,11 @@ import {
   Body,
 } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { characterSwap, arrToString } from "../utils/textParser";
+import {
+  characterSwap,
+  arrToString,
+  capitalizeAsTitle,
+} from "../utils/textParser";
 import { Rating } from "react-native-ratings";
 export default function (props) {
   const { setCards, setCardsOfThisCategory } = props;
@@ -45,7 +49,9 @@ export default function (props) {
         }}
       >
         <View style={{ top: 10 }}>
-          <Text>{name && characterSwap(name, "_", " ")}</Text>
+          <Text>
+            {capitalizeAsTitle(name && characterSwap(name, "_", " "))}
+          </Text>
         </View>
         <View
           style={{

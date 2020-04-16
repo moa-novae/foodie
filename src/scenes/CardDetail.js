@@ -14,7 +14,7 @@ import {
   List,
   ListItem,
 } from "native-base";
-import { characterSwap, arrToString } from "../utils/textParser";
+import { characterSwap, capitalizeAsTitle } from "../utils/textParser";
 import { deleteCard } from "../utils/infoSaver";
 import { Rating } from "react-native-ratings";
 import { TabView, SceneMap } from "react-native-tab-view";
@@ -76,7 +76,7 @@ export default function ({ route, navigation }) {
               }}
             >
               <View style={{ top: 10 }}>
-                <Text>{name && characterSwap(name, "_", " ")}</Text>
+                <Text> {capitalizeAsTitle(name && characterSwap(name, "_", " "))}</Text>
               </View>
               <View
                 style={{
