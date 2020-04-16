@@ -24,13 +24,15 @@ export default function CardHeader(props) {
       noBorder
       button
       icon
-      onPress={() =>
+      onPress={() => {
+        //close row slider
+        props.closeRow();
         props.navigation.navigate("ResultOverview", {
           cards: props.cards,
           setCards: props.setCards,
           searchTags: category.tags,
-        })
-      }
+        });
+      }}
     >
       <Left>
         <Icon

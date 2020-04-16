@@ -44,7 +44,13 @@ export default function Home({ navigation }) {
       });
     }
   }
-  const renderCategoryItem = (data) => {
+  //function for closing row slider
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+  const renderCategoryItem = (data, rowMap) => {
     return (
       <>
         {data.item.category && (
@@ -54,6 +60,7 @@ export default function Home({ navigation }) {
             navigation={data.item.navigation}
             cards={data.item.cards}
             setCards={data.item.setCards}
+            closeRow={() => closeRow(rowMap, data.item.key)}
           />
         )}
       </>
@@ -80,8 +87,8 @@ export default function Home({ navigation }) {
       },
     });
   };
-    
-    const renderHiddenCategoryItem = (data) => (
+
+  const renderHiddenCategoryItem = (data, rowMap) => (
     <View key={data.item.key} style={styles.sliderButtonsContainer}>
       <TouchableOpacity
         style={styles.sliderButtonDelete}
@@ -95,14 +102,15 @@ export default function Home({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.sliderButtonEdit}
-        onPress={() =>
+        onPress={() => {
+          closeRow(rowMap, data.item.key);
           editCategory(
             data.item.category,
             data.item.categoryId,
             data.item.allTags,
             data.item.navigation
-          )
-        }
+          );
+        }}
       >
         <Icon
           style={{ fontSize: 20, color: "white" }}
