@@ -1,10 +1,14 @@
 {
   "expo": {
-    "name": "Blank Template",
+    "name": "Foodie List",
     "slug": "foodie_list",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -16,12 +20,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "androidStatusBar": {
       "backgroundColor": "#000000"
-    }
+    },
+    "description": "A expo based app that allows users to document food they like",
+    "githubUrl": "https://github.com/moa-novae/foodie"
   }
 }

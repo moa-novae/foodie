@@ -57,7 +57,7 @@ export default function ({ navigation, route }) {
 
   //check to see if error present
   useEffect(() => {
-    if (!Object.values(error).filter((val) => !!val).length) {
+    if (Object.values(error).filter((val) => !!val).length) {
       setCanSubmit((prev) => false);
     } else {
       setCanSubmit((prev) => true);
