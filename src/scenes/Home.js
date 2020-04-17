@@ -181,7 +181,7 @@ export default function Home({ navigation }) {
             disableLeftSwipe
           />
         </View>
-        <Button
+        {/* <Button
           onPress={() => {
             readFromLocal("cards").then(console.log);
           }}
@@ -202,7 +202,7 @@ export default function Home({ navigation }) {
           }}
         >
           <Text>Seed with Sample Data</Text>
-        </Button>
+        </Button> */}
       </Content>
       <Footer
         style={{
