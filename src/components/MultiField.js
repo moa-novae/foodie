@@ -4,9 +4,9 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { uniqueId } from "../utils/uniqueId";
 
 const SingleField = function (props) {
-  const { placeholder, value, setForm, formKey, id } = props;
+  const { placeholder, value, setForm, formKey, id, errorMsg } = props;
   return (
-    <Item regular style={styles.singleField}>
+    <Item regular error={!!errorMsg} style={styles.singleField}>
       <Input
         placeholder={placeholder}
         value={value}
@@ -17,13 +17,24 @@ const SingleField = function (props) {
             return output;
           });
         }}
+        onBlur={() => {
+          if (props.validationErrors) props.validationErrors();
+        }}
       />
     </Item>
   );
 };
 
 export default function MultiField(props) {
-  const { formKey, form, placeholder, setForm, title } = props;
+  const {
+    formKey,
+    form,
+    placeholder,
+    setForm,
+    title,
+    validationErrors,
+    errorMsg,
+  } = props;
   const addField = function () {
     setForm((prev) => {
       const output = { ...prev };
@@ -52,6 +63,8 @@ export default function MultiField(props) {
             setForm={setForm}
             placeholder={placeholder}
             formKey={formKey}
+            validationErrors={validationErrors}
+            errorMsg={errorMsg}
           />
           <Icon
             name="delete"
@@ -63,6 +76,9 @@ export default function MultiField(props) {
                 delete newForm[formKey][id];
                 return newForm;
               });
+              if (validationErrors) {
+                validationErrors();
+              }
             }}
           />
         </View>
@@ -87,6 +103,7 @@ export default function MultiField(props) {
           <Text>Add More</Text>
         </Button>
       </View>
+      <Text style={{ color: "red" }}>{errorMsg}</Text>
     </View>
   );
 }

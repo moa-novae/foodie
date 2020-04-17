@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Platform, StyleSheet, Asyncstorage } from "react-native";
 import {
   Container,
@@ -37,7 +37,7 @@ export default function ({ navigation, route }) {
       oldIngredients[uniqueId()] = ingredient;
     });
   }
-
+  // initial state if in edit mode
   const initialState = {
     name: card ? card.name : "",
     rating: card ? card.rating : 2.5,
@@ -49,7 +49,20 @@ export default function ({ navigation, route }) {
       : { [uniqueId()]: "" },
   };
   const [form, setForm] = useState(initialState);
+  const [error, setError] = useState({
+    name: null,
+    ingredients: null,
+  });
+  const [canSubmit, setCanSubmit] = useState(false);
 
+  //check to see if error present
+  useEffect(() => {
+    if (!Object.values(error).filter((val) => !!val).length) {
+      setCanSubmit((prev) => false);
+    } else {
+      setCanSubmit((prev) => true);
+    }
+  }, [error]);
   return (
     <Container>
       <Content>
@@ -72,15 +85,17 @@ export default function ({ navigation, route }) {
               minHeight: 50,
             }}
           >
-            <Item regular style={styles.textField}>
+            <Item regular style={styles.textField} error={!!error.name}>
               <Input
                 onChangeText={(text) => {
                   setForm((prev) => ({ ...prev, name: text }));
                 }}
                 value={form.name}
                 placeholder="Name"
+                onBlur={() => validationErrors(form, setError)}
               />
             </Item>
+            <Text style={{ color: "red" }}>{error.name}</Text>
             <Item regular style={styles.textField}>
               <Input
                 onChangeText={(description) => {
@@ -120,6 +135,8 @@ export default function ({ navigation, route }) {
               placeholder="Ingredient"
               title="Ingredients"
               formKey="ingredients"
+              errorMsg={error.ingredients}
+              validationErrors={() => validationErrors(form, setError)}
             />
             <MultiField
               setForm={setForm}
@@ -147,26 +164,9 @@ export default function ({ navigation, route }) {
             </Button>
             <Button
               onPress={() => {
-                const newCardId = cardId || uniqueId();
-                const savedCard = { [newCardId]: { ...form, cardId } };
-                //in the form state, tags/ingredients are stored as object. It is then converted to an array
-                const tagArr = [];
-                const ingredientArr = [];
-                for (let [tagId, tag] of Object.entries(
-                  savedCard[newCardId].tags
-                )) {
-                  tagArr.push(tag);
-                }
-                for (let [ingredientId, ingredient] of Object.entries(
-                  savedCard[newCardId].ingredients
-                )) {
-                  ingredientArr.push(ingredient);
-                }
-                savedCard[newCardId].ingredients = ingredientArr;
-                savedCard[newCardId].tags = tagArr;
-                saveToLocal("cards", savedCard);
-                navigation.navigate("Home");
+                saveFormToStorage(cardId, form, navigation);
               }}
+              disabled={!canSubmit}
               style={styles.saveButton}
             >
               <Icon name="save" type="AntDesign" />
@@ -178,6 +178,53 @@ export default function ({ navigation, route }) {
     </Container>
   );
 }
+
+const saveFormToStorage = function (cardId, form, navigation) {
+  const newCardId = cardId || uniqueId();
+  const newCard = { [newCardId]: { ...form, cardId } };
+  //in the form state, tags/ingredients are stored as object. It is then converted to an array
+  const tagArr = [];
+  const ingredientArr = [];
+  //convert tags & inredients in form, stored as object, to array
+  for (let [tagId, tag] of Object.entries(newCard[newCardId].tags)) {
+    tagArr.push(tag);
+  }
+  for (let [ingredientId, ingredient] of Object.entries(
+    newCard[newCardId].ingredients
+  )) {
+    ingredientArr.push(ingredient);
+  }
+  newCard[newCardId].ingredients = ingredientArr;
+  newCard[newCardId].tags = tagArr;
+  saveToLocal("cards", newCard);
+  navigation.navigate("Home");
+};
+
+const validationErrors = function (form, setError) {
+  if (!form?.name || !form?.name?.length) {
+    setError((prev) => ({ ...prev, name: "Please enter a name!" }));
+  } else if (form?.name?.length) {
+    setError((prev) => ({ ...prev, name: null }));
+  }
+  //check if at least one ingredient is filled
+  if (
+    !form.ingredients ||
+    !Object.values(form?.ingredients).filter((ingredient) => ingredient.length)
+      .length
+  ) {
+    setError((prev) => ({
+      ...prev,
+      ingredients: "Please add at least one ingredient!",
+    }));
+  } else if (
+    Object.values(form?.ingredients).filter((ingredient) => ingredient.length)
+  ) {
+    setError((prev) => ({
+      ...prev,
+      ingredients: null,
+    }));
+  }
+};
 
 const styles = StyleSheet.create({
   textField: {
