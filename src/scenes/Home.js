@@ -75,7 +75,7 @@ export default function Home({ navigation }) {
     //delete category from local storage
     deleteCategoryFromLocal(categoryId);
   };
-
+  //fn for onPress edit button
   const editCategory = function (category, categoryId, allTags, navigation) {
     navigation.navigate("CreateNewCategory", {
       screen: "CreateNewCategory",
@@ -87,7 +87,7 @@ export default function Home({ navigation }) {
       },
     });
   };
-
+  //render buttons underneath the category slider
   const renderHiddenCategoryItem = (data, rowMap) => (
     <View key={data.item.key} style={styles.sliderButtonsContainer}>
       <TouchableOpacity
@@ -120,6 +120,17 @@ export default function Home({ navigation }) {
       </TouchableOpacity>
     </View>
   );
+  const Tip = function () {
+    return (
+      <View style={styles.tipContainer}>
+        <Text style={styles.tipText}>
+          Try and create a new category! Category will filter items that share
+          the same set of tags.
+        </Text>
+      </View>
+    );
+  };
+
   //Upon focus, fetch local data on cards
   useFocusEffect(
     useCallback(() => {
@@ -180,6 +191,7 @@ export default function Home({ navigation }) {
             previewRowKey={"0"}
             disableLeftSwipe
           />
+          {!categoriesList.length && <Tip />}
         </View>
         {/* <Button
           onPress={() => {
@@ -274,5 +286,19 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginHorizontal: 18,
     width: 100,
+  },
+  tipContainer: {
+    marginHorizontal: 30,
+    marginVertical: 20,
+    height: 400,
+    flex: 1,
+    justifyContent: "center",
+    color: "#c9c9c9",
+  },
+  tipText: {
+    color: "#8f8f8f",
+    fontSize: 20,
+    lineHeight: 30,
+    textAlign: "center",
   },
 });

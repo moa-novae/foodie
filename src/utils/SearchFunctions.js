@@ -1,7 +1,7 @@
 import { characterSwap } from "./textParser";
 export const categoryFinder = (cards, category) => {
   let output = {};
-  if (cards) {
+  if (cards && Object.keys(cards).length) {
     for (let [key, value] of Object.entries(cards)) {
       if (value.tags) {
         const tags = value.tags.map((tag) => tag.toLowerCase());
@@ -60,10 +60,12 @@ export const searchAll = (cards, keyword, searchTags) => {
     }
   }
   //check to see if each current results has all tags searched
-  for (let [itemId, value] of Object.entries(output)) {
-    if (searchTags.length) {
-      if (!searchTags.every((searchTag) => value.tags.includes(searchTag))) {
-        delete output[itemId];
+  if (output && Object.keys(output).length) {
+    for (let [itemId, value] of Object.entries(output)) {
+      if (searchTags.length) {
+        if (!searchTags.every((searchTag) => value.tags.includes(searchTag))) {
+          delete output[itemId];
+        }
       }
     }
   }

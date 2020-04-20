@@ -43,14 +43,16 @@ export default function HalfModal({ navigation }) {
 
   useEffect(() => {
     let tagCounter = {};
-    for (let [cardId, cardValue] of Object.entries(cards)) {
-      cardValue.tags.forEach((tag) => {
-        if (tagCounter[tag]) {
-          tagCounter[tag]++;
-        } else {
-          tagCounter[tag] = 1;
-        }
-      });
+    if (cards && Object.keys(cards).length) {
+      for (let [cardId, cardValue] of Object.entries(cards)) {
+        cardValue.tags.forEach((tag) => {
+          if (tagCounter[tag]) {
+            tagCounter[tag]++;
+          } else {
+            tagCounter[tag] = 1;
+          }
+        });
+      }
     }
     const tagCounterArr = Object.entries(tagCounter);
     const sortedTagCounterArr = tagCounterArr.sort(function (a, b) {
