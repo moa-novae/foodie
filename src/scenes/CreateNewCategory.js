@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Content,
@@ -29,7 +29,6 @@ const filterData = function (query, dataSet) {
 
 //This component is used for editing and creating new categories
 export default function ({ route, navigation }) {
-  console.log("this is run");
   let category, categoryId;
   if (route.params?.category && route.params?.categoryId) {
     ({ category, categoryId } = route.params);
@@ -44,6 +43,7 @@ export default function ({ route, navigation }) {
   };
   const [newCategory, setNewCategory] = useState(initialState);
   const { allTags, setCategories } = route.params;
+  //TagQuery linked with autocomplete
   const [tagQuery, setTagQuery] = useState("");
 
   const [showAutoComplete, setShowAutoComplete] = useState(false);
@@ -51,7 +51,7 @@ export default function ({ route, navigation }) {
   let tags;
   if (newCategory && newCategory.tags) {
     tags = newCategory.tags.map((tag, index) => (
-      <Button iconRight rounded style={{ margin: 5 }} key={`${tag}: ${index}`}>
+      <Button iconRight rounded style={{ margin: 5 }} key={`${tag}`}>
         <Text>{tag}</Text>
         <Icon
           name="delete"
@@ -67,6 +67,13 @@ export default function ({ route, navigation }) {
       </Button>
     ));
   }
+
+  //Clear suggest list if input is empty
+  useEffect(() => {
+    if (!tagQuery) {
+      setShowAutoComplete((prev) => false);
+    }
+  }, [tagQuery]);
   return (
     <Container>
       <ScrollView keyboardShouldPersistTaps="always">
@@ -102,11 +109,11 @@ export default function ({ route, navigation }) {
                     if (tagQuery) {
                       setNewCategory((prev) => {
                         const newState = { ...prev };
-                        if (!newState.tags.includes(tagQuery))
-                          newState.tags.push(tagQuery);
+                        if (!newState.tags.includes(tagQuery.toLowerCase()))
+                          newState.tags.push(tagQuery.toLowerCase());
                         return newState;
                       });
-                      setTagQuery((prev) => null);
+                      setTagQuery((prev) => "");
                     }
                   }}
                   onChangeText={(query) => {
@@ -123,8 +130,16 @@ export default function ({ route, navigation }) {
                 <TouchableOpacity
                   key={i}
                   onPress={() => {
+                    //hide suggest window
                     setShowAutoComplete((prev) => false);
-                    setTagQuery((prev) => item);
+                    setTagQuery((prev) => "");
+                    setNewCategory((prev) => {
+                      const newState = { ...prev };
+                      if (!newState.tags.includes(item.toLowerCase())) {
+                        newState.tags.push(item.toLowerCase());
+                      }
+                      return newState;
+                    });
                   }}
                 >
                   <Text>{item}</Text>
@@ -174,13 +189,34 @@ export default function ({ route, navigation }) {
         </Form>
         <Button
           onPress={() => {
-            const toBeSavedCategory = { [categoryId || uniqueId()]: newCategory };
-            setCategories((prev) => ({ ...prev, ...toBeSavedCategory }));
+            const newCategoryId = uniqueId();
+            let toBeSavedCategory = {
+              [categoryId || newCategoryId]: { ...newCategory },
+            };
+            setCategories((prev) => ({
+              ...prev,
+              ...toBeSavedCategory,
+            }));
             saveToLocal("categories", toBeSavedCategory);
             navigation.goBack();
           }}
         >
           <Text>Save current Form</Text>
+        </Button>
+        <Button
+          onPress={() => {
+            const newCategoryId = uniqueId();
+            let toBeSavedCategory = {
+              [categoryId || newCategoryId]: { ...newCategory },
+            };
+            setCategories((prev) => ({
+              ...prev,
+              ...toBeSavedCategory,
+            }));
+            console.log(typeof toBeSavedCategory);
+          }}
+        >
+          <Text>Print</Text>
         </Button>
       </ScrollView>
     </Container>

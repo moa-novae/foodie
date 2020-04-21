@@ -13,6 +13,7 @@ export const characterSwap = function (str, oldChar, newChar) {
 };
 
 export const capitalizeAsTitle = function (str) {
+  if (!str) return "";
   return str
     .toLowerCase()
     .split(" ")

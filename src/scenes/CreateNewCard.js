@@ -187,12 +187,12 @@ const saveFormToStorage = function (cardId, form, navigation) {
   const ingredientArr = [];
   //convert tags & inredients in form, stored as object, to array
   for (let [tagId, tag] of Object.entries(newCard[newCardId].tags)) {
-    tagArr.push(tag);
+    tagArr.push(tag.toLowerCase());
   }
   for (let [ingredientId, ingredient] of Object.entries(
     newCard[newCardId].ingredients
   )) {
-    ingredientArr.push(ingredient);
+    ingredientArr.push(ingredient.toLowerCase());
   }
   newCard[newCardId].ingredients = ingredientArr;
   newCard[newCardId].tags = tagArr;

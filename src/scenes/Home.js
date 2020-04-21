@@ -193,12 +193,18 @@ export default function Home({ navigation }) {
           />
           {!categoriesList.length && <Tip />}
         </View>
-        {/* <Button
+        <Button
           onPress={() => {
             readFromLocal("cards").then(console.log);
           }}
         >
           <Text>Show Local</Text>
+        </Button>
+        <Button onPress={()=> {
+          readFromLocal('categories').then(console.log)
+        }}
+        >
+          <Text>Category</Text>
         </Button>
         <Button
           onPress={() => {
@@ -214,7 +220,7 @@ export default function Home({ navigation }) {
           }}
         >
           <Text>Seed with Sample Data</Text>
-        </Button> */}
+        </Button>
       </Content>
       <Footer
         style={{
