@@ -18,8 +18,9 @@ export default function ({ route, navigation }) {
   const [cardsOfThisCategory, setCardsOfThisCategory] = useState();
 
   useEffect(() => {
+    console.log(searchTags);
     setCardsOfThisCategory((prev) =>
-      searchAll(cards, searchStr || "", searchTags)
+      searchAll(cards, searchStr || "", searchTags || [])
     );
   }, [cards]);
   const EmptyResult = function () {

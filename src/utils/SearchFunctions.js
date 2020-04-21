@@ -16,7 +16,7 @@ export const categoryFinder = (cards, category) => {
 //Function for searchbar on homepage
 export const searchAll = (cards, keyword, searchTags) => {
   let output = {};
-  if (!keyword.length && !searchTags.length) return;
+  if (!keyword.length && !searchTags.length) return { ...cards };
   if (!keyword.length) {
     output = { ...cards };
   }

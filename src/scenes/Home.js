@@ -17,6 +17,7 @@ import ListHeader from "../components/ListHeader";
 import ListBody from "../components/ListBody";
 import Tag from "../components/Tag";
 import NewButton from "../components/NewButton";
+import ShowAll from "../components/ShowAll";
 import {
   saveToLocal,
   readFromLocal,
@@ -181,18 +182,18 @@ export default function Home({ navigation }) {
 
   return (
     <Container style={{ backgroundColor: "#ffffff" }}>
-      <Content>
-        <View>
-          <SwipeListView
-            data={categoriesList}
-            renderItem={renderCategoryItem}
-            renderHiddenItem={renderHiddenCategoryItem}
-            leftOpenValue={100}
-            previewRowKey={"0"}
-            disableLeftSwipe
-          />
-          {!categoriesList.length && <Tip />}
-        </View>
+      <Content contentContainerStyle={{}}>
+        <SwipeListView
+          data={categoriesList}
+          renderItem={renderCategoryItem}
+          renderHiddenItem={renderHiddenCategoryItem}
+          leftOpenValue={100}
+          previewRowKey={"0"}
+          disableLeftSwipe
+        />
+        <ShowAll navigation={navigation} cards={cards} setCards={setCards} />
+        {!categoriesList.length && <Tip />}
+
         <Button
           onPress={() => {
             readFromLocal("cards").then(console.log);
@@ -200,9 +201,10 @@ export default function Home({ navigation }) {
         >
           <Text>Show Local</Text>
         </Button>
-        <Button onPress={()=> {
-          readFromLocal('categories').then(console.log)
-        }}
+        <Button
+          onPress={() => {
+            readFromLocal("categories").then(console.log);
+          }}
         >
           <Text>Category</Text>
         </Button>
@@ -225,41 +227,46 @@ export default function Home({ navigation }) {
       <Footer
         style={{
           backgroundColor: "#ffff",
-          position: "absolute",
-          flex: 1,
-          bottom: 0,
-          flexDirection: "row",
-          justifyContent: "space-between",
           paddingLeft: 15,
+          height: 60,
           paddingRight: 15,
         }}
       >
-        <Button
-          full
-          transparent
-          iconRight
-          onPress={() =>
-            navigation.navigate("CreateNewCategory", {
-              screen: "CreateNewCategory",
-              params: { allTags, setCategories: setCategories },
-            })
-          }
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignSelf: "center",
+          }}
         >
-          <Icon
-            name="addfolder"
-            style={{ color: "#2164ff" }}
-            type="AntDesign"
-          />
-          <Text>New Category</Text>
-        </Button>
-        <Button
-          full
-          transparent
-          iconRight
-          onPress={() => navigation.navigate("CreateNew")}
-        >
-          <Icon name="plus" type="AntDesign" />
-        </Button>
+          <Button
+            full
+            transparent
+            iconRight
+            onPress={() =>
+              navigation.navigate("CreateNewCategory", {
+                screen: "CreateNewCategory",
+                params: { allTags, setCategories: setCategories },
+              })
+            }
+          >
+            <Icon
+              name="addfolder"
+              style={{ color: "#2164ff" }}
+              type="AntDesign"
+            />
+            <Text>New Category</Text>
+          </Button>
+          <Button
+            full
+            transparent
+            iconRight
+            onPress={() => navigation.navigate("CreateNew")}
+          >
+            <Icon name="plus" type="AntDesign" />
+          </Button>
+        </View>
       </Footer>
     </Container>
   );

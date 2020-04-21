@@ -16,7 +16,7 @@ import { StyleSheet, View } from "react-native";
 import * as testData from "../assets/sampleData";
 import { capitalizeAsTitle } from "../utils/textParser";
 
-export default function CardHeader(props) {
+export default function ListBody(props) {
   const { category } = props;
 
   return (
@@ -27,7 +27,9 @@ export default function CardHeader(props) {
       icon
       onPress={() => {
         //close row slider
-        props.closeRow();
+        if (props.closeRow) {
+          props.closeRow();
+        }
         props.navigation.navigate("ResultOverview", {
           cards: props.cards,
           setCards: props.setCards,
@@ -36,12 +38,15 @@ export default function CardHeader(props) {
       }}
     >
       <Left>
-        <Icon
-          active
-          name={category.icon}
-          type="FontAwesome5"
-          style={{ fontSize: 20, color: category.iconColor }}
-        />
+        
+        {category.icon && (
+          <Icon
+            active
+            name={category.icon}
+            type="FontAwesome5"
+            style={{ fontSize: 20, color: category.iconColor }}
+          />
+        )}
       </Left>
       <Body>
         <Text>{capitalizeAsTitle(category.name)}</Text>
