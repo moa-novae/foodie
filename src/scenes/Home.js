@@ -194,7 +194,7 @@ export default function Home({ navigation }) {
         <ShowAll navigation={navigation} cards={cards} setCards={setCards} />
         {!categoriesList.length && <Tip />}
 
-        <Button
+        {/* <Button
           onPress={() => {
             readFromLocal("cards").then(console.log);
           }}
@@ -222,7 +222,7 @@ export default function Home({ navigation }) {
           }}
         >
           <Text>Seed with Sample Data</Text>
-        </Button>
+        </Button> */}
       </Content>
       <Footer
         style={{
