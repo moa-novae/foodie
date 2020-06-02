@@ -32,6 +32,7 @@ const fadeIn = progress => ({
 
 
 export default function Nav() {
+  console.disableYellowBox = true;
   return (
     <NavigationContainer theme={theme}>
       <Stack.Navigator
