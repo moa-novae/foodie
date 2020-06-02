@@ -4,7 +4,7 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import { Button, Text } from "native-base";
-import { DefaultTheme } from "@react-navigation/native";
+import {theme} from '../styles/theme'
 import Home from "../scenes/Home";
 import { Icon } from "native-base";
 import Category from "../scenes/Category";
@@ -15,6 +15,7 @@ import ResultOverview from "../scenes/ResultOverview";
 import CardDetail from "../scenes/CardDetail";
 import CreateCategoryStack from "./CreateCategoryStack";
 
+
 const homeHeader = function (navigation, route) {
   return {
     headerTitle: (props) => <LogoTitle />,
@@ -24,7 +25,7 @@ const homeHeader = function (navigation, route) {
           marginLeft: 10,
           marginRight: 10,
           fontSize: 30,
-          color: "#2164ff",
+          color: theme.colors.primary,
         }}
         name="search1"
         type="AntDesign"
@@ -34,7 +35,7 @@ const homeHeader = function (navigation, route) {
   };
 };
 function EditCard(navigation, route) {
-  const { setCards, setCardsOfThisCategory, cardId, card } = route.params;
+  const { cardId, card } = route.params;
   return {
     headerRight: () => (
       <Button
@@ -57,7 +58,7 @@ function EditCard(navigation, route) {
         //   navigation.goBack();
         // }}
       >
-        <Text style={{ fontSize: 18, color: "#2164ff" }}>EDIT</Text>
+        <Text style={{ fontSize: 18, color: theme.colors.primary }}>EDIT</Text>
       </Button>
     ),
   };
@@ -71,7 +72,7 @@ function LogoTitle() {
         marginLeft: 10,
         marginRight: 10,
         fontSize: 30,
-        color: "#2164ff",
+        color: theme.colors.logo,
       }}
       name="hippo"
       type="FontAwesome5"
@@ -84,7 +85,7 @@ export default function HomeStack() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#ffffff",
+          backgroundColor: "#fff",
         },
       }}
     >

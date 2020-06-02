@@ -1,5 +1,10 @@
 import React from "react";
-import { TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+  StyleSheet,
+} from "react-native";
 import { Button } from "native-base";
 const sampleColor = [
   "red",
@@ -63,18 +68,20 @@ export default function ({ route, navigation }) {
             justifyContent: "center",
           }}
         >
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            {buttons}
-          </View>
+          <View style={styles.container}>{buttons}</View>
         </View>
       </TouchableWithoutFeedback>
     </TouchableOpacity>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    paddingHorizontal: 5,
+    paddingVertical: 20,
+    backgroundColor: "#f2f2f2",
+  },
+});

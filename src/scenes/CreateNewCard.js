@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Platform, StyleSheet, Asyncstorage } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import {
   Container,
   Content,
   Text,
   Item,
-  Label,
   Form,
   Input,
   Icon,
   Button,
 } from "native-base";
-import { TouchableOpacity, ScrollView, View, Image } from "react-native";
-
-import Constants from "expo-constants";
-import * as Permissions from "expo-permissions";
+import {  View } from "react-native";
 import { Rating } from "react-native-ratings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import MultiField from "../components/MultiField";
-import Tag from "../components/addTags";
 import PhotoSelection from "../components/PhotoSelection";
 import { saveToLocal, deleteCard } from "../utils/infoSaver";
 import { uniqueId } from "../utils/uniqueId";
+import {theme} from '../styles/theme'
 
 export default function ({ navigation, route }) {
   let card;
@@ -154,7 +150,7 @@ export default function ({ navigation, route }) {
           <View style={{ flex: 1, flexDirection: "row" }}>
             <Button
               danger
-              style={styles.saveButton}
+              style={styles.deleteButton}
               onPress={() => {
                 deleteCard(cardId);
                 navigation.navigate("Home");
@@ -226,6 +222,13 @@ const validationErrors = function (form, setError) {
   }
 };
 
+const buttonStyle = {
+  flex: 1,
+  flexDirection: "row",
+  justifyContent: "center",
+  height: 50,
+}
+
 const styles = StyleSheet.create({
   textField: {
     marginVertical: 10,
@@ -233,9 +236,10 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   saveButton: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    height: 50,
+    ...buttonStyle,
+    backgroundColor: theme.colors.primary
   },
+  deleteButton : {
+    ...buttonStyle
+  }
 });

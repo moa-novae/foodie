@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { Button, Icon, Text } from "native-base";
-
+import {theme} from '../styles/theme'
 import * as ImagePicker from "expo-image-picker";
 
 export default function (props) {
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 115,
     margin: 10,
-    borderColor: "#2164ff",
+    borderColor: theme.colors.primary,
     borderWidth: 4,
     borderStyle: "dashed",
     justifyContent: "center",

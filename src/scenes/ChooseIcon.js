@@ -1,5 +1,10 @@
 import React from "react";
-import { TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+  StyleSheet,
+} from "react-native";
 import { Button, Icon } from "native-base";
 const sampleIcons = [
   "hamburger",
@@ -29,6 +34,7 @@ export default function ({ route, navigation }) {
   const foodIcons = sampleIcons.map((icon, index) => (
     <Button
       transparent
+      key={icon}
       onPress={() => setNewCategory((prev) => ({ ...prev, icon }))}
       onPressOut={() => {
         navigation.goBack();
@@ -59,20 +65,13 @@ export default function ({ route, navigation }) {
     >
       {/* TouchableWithoutFeedback is the actual modal */}
       <TouchableWithoutFeedback>
-        <View
-          style={{
-            height: "40%",
-            width: "100%",
-            backgroundColor: "#fff",
-            justifyContent: "center",
-          }}
-        >
+        <View style={styles.container}>
           <View
             style={{
               flex: 1,
               flexDirection: "row",
               flexWrap: "wrap",
-              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             {foodIcons}
@@ -82,3 +81,14 @@ export default function ({ route, navigation }) {
     </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    height: "40%",
+    width: "100%",
+    justifyContent: "center",
+    backgroundColor: "#f2f2f2",
+  },
+});

@@ -1,11 +1,13 @@
 export const theme = {
-  dark: true, 
+  dark: true,
   colors: {
-    primary: '#cee5f2',
-    background: '#fff',
-    card : '#1f2232',
-    text: '#2164ff',
-    border: '#1f2232'
-  }
-
-}
+    primary: "#7A89C2",
+    background: "#f7f7f7",
+    card: "#f7f7f7",
+    text: "#7A89C2",
+    border: "#1f2232",
+    logo: "#AFA2FF",
+    button: "#424874",
+    tertiary: '#DCD6F7'
+  },
+};

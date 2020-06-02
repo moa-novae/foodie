@@ -7,23 +7,11 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import { Form, Item, Input, Icon } from "native-base";
+
 import { readFromLocal } from "../utils/infoSaver";
 import Tag from "../components/Tag";
 import SearchBar from "../components/SearchBar";
-import { searchAll } from "../utils/SearchFunctions";
 import { useFocusEffect } from "@react-navigation/native";
-
-const testTags = [
-  "Tasty",
-  "Spicy",
-  "Sour",
-  "Cheap",
-  "Fast",
-  "Mexican",
-  "Late Night",
-  "Morning",
-];
 
 export default function HalfModal({ navigation }) {
   const [tagSelected, setTagSelected] = useState({});

@@ -1,30 +1,23 @@
 import {
   Container,
   Content,
-  List,
-  Fab,
   Icon,
   Button,
   Footer,
   Text,
 } from "native-base";
 import React, { useEffect, useState, useCallback } from "react";
-import { TouchableOpacity, AsyncStorage } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
-import ListHeader from "../components/ListHeader";
 import ListBody from "../components/ListBody";
-import Tag from "../components/Tag";
-import NewButton from "../components/NewButton";
 import ShowAll from "../components/ShowAll";
 import {
-  saveToLocal,
   readFromLocal,
   deleteCategoryFromLocal,
 } from "../utils/infoSaver";
-import { uniqueId } from "../utils/uniqueId";
-import { sampleData, sampleCategories } from "../assets/sampleData";
+import { theme } from '../styles/theme'
 
 export default function Home({ navigation }) {
   const [cards, setCards] = useState({});
@@ -181,8 +174,8 @@ export default function Home({ navigation }) {
   }, [cards]);
 
   return (
-    <Container style={{ backgroundColor: "#ffffff" }}>
-      <Content contentContainerStyle={{}}>
+    <Container>
+      <Content>
         <SwipeListView
           data={categoriesList}
           renderItem={renderCategoryItem}
@@ -193,7 +186,7 @@ export default function Home({ navigation }) {
         />
         <ShowAll navigation={navigation} cards={cards} setCards={setCards} />
         {!categoriesList.length && <Tip />}
-
+        {/* dev options */}
         {/* <Button
           onPress={() => {
             readFromLocal("cards").then(console.log);
@@ -226,7 +219,7 @@ export default function Home({ navigation }) {
       </Content>
       <Footer
         style={{
-          backgroundColor: "#ffff",
+          backgroundColor: theme.colors.background,
           paddingLeft: 15,
           height: 60,
           paddingRight: 15,
@@ -253,7 +246,7 @@ export default function Home({ navigation }) {
           >
             <Icon
               name="addfolder"
-              style={{ color: "#2164ff" }}
+              style={{ color: theme.colors.primary }}
               type="AntDesign"
             />
             <Text>New Category</Text>

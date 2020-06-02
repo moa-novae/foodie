@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Content,
-  Text,
-  Button,
-  Form,
-  Item,
-  Input,
-  Label,
-  Icon,
-  List,
-  ListItem,
-} from "native-base";
+import { Container, Text, Button, Form, Item, Input, Icon } from "native-base";
 import { View, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import { uniqueId } from "../utils/uniqueId";
 import { saveToLocal } from "../utils/infoSaver";
-
+import { theme } from "../styles/theme";
 const filterData = function (query, dataSet) {
   const output = [];
   dataSet.forEach((data) => {
@@ -51,7 +39,12 @@ export default function ({ route, navigation }) {
   let tags;
   if (newCategory && newCategory.tags) {
     tags = newCategory.tags.map((tag, index) => (
-      <Button iconRight rounded style={{ margin: 5 }} key={`${tag}`}>
+      <Button
+        iconRight
+        rounded
+        style={{ margin: 5, backgroundColor: theme.colors.button }}
+        key={tag}
+      >
         <Text>{tag}</Text>
         <Icon
           name="delete"
@@ -147,18 +140,9 @@ export default function ({ route, navigation }) {
               )}
             />
           </Item>
-          <Item
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "flex-start",
-              flexWrap: "wrap",
-            }}
-          >
-            {tags}
-          </Item>
-          <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+          <View style={styles.tagsContainer}>{tags}</View>
+
+          <View style={styles.picker}>
             <Text>Select A Color</Text>
             <Button
               style={{
@@ -172,7 +156,7 @@ export default function ({ route, navigation }) {
               }}
             />
           </View>
-          <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+          <View style={styles.picker}>
             <Text>Pick an Icon</Text>
             <Icon
               name={newCategory.icon || "hamburger"}
@@ -188,6 +172,8 @@ export default function ({ route, navigation }) {
           </View>
         </Form>
         <Button
+          style={styles.saveButton}
+          full
           onPress={() => {
             const newCategoryId = uniqueId();
             let toBeSavedCategory = {
@@ -201,9 +187,10 @@ export default function ({ route, navigation }) {
             navigation.goBack();
           }}
         >
-          <Text>Save current Form</Text>
+          <Text>Save New Category</Text>
         </Button>
-        <Button
+        {/* dev button */}
+        {/* <Button
           onPress={() => {
             const newCategoryId = uniqueId();
             let toBeSavedCategory = {
@@ -217,7 +204,7 @@ export default function ({ route, navigation }) {
           }}
         >
           <Text>Print</Text>
-        </Button>
+        </Button> */}
       </ScrollView>
     </Container>
   );
@@ -228,5 +215,24 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: "#f0f0f0",
     minHeight: 50,
+  },
+  saveButton: {
+    backgroundColor: theme.colors.primary,
+    height: 50,
+  },
+  picker: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  tagsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    minHeight: 30,
+    marginVertical: 10,
   },
 });

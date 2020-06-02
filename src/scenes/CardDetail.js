@@ -17,16 +17,15 @@ import {
 import { characterSwap, capitalizeAsTitle } from "../utils/textParser";
 import { deleteCard } from "../utils/infoSaver";
 import { Rating } from "react-native-ratings";
-import { TabView, SceneMap } from "react-native-tab-view";
+import { TabView, TabBar } from "react-native-tab-view";
+import { theme } from "../styles/theme";
 
 const Description = (props) => (
-  <Text style={{ margin: 20, lineHeight: 25 }}>{props.description}</Text>
+  <Text style={styles.tabContainer}>{props.description}</Text>
 );
 
 const Ingredients = (props) => (
-  <Text style={{ margin: 20, lineHeight: 25 }}>
-    {props.ingredients.join("\n")}
-  </Text>
+  <Text style={styles.tabContainer}>{props.ingredients.join("\n")}</Text>
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
@@ -35,8 +34,8 @@ export default function ({ route, navigation }) {
   const { setCards, card } = route.params;
   const { cardId, description, ingredients, name, tags, uri, rating } = card;
 
-  const Tags = tags.map((tag, index) => (
-    <Button rounded style={{ margin: 5 }} key={index}>
+  const Tags = tags.map((tag) => (
+    <Button rounded style={{ margin: 5 }} key={tag} style={styles.tag}>
       <Text>{tag}</Text>
     </Button>
   ));
@@ -47,6 +46,7 @@ export default function ({ route, navigation }) {
     { key: "ingredient", title: "Ingredients" },
   ]);
 
+  //for tab view
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "description":
@@ -55,6 +55,10 @@ export default function ({ route, navigation }) {
         return <Ingredients ingredients={ingredients} />;
     }
   };
+  //for tab view
+  const renderTabBar = (props) => (
+    <TabBar {...props} style={{ backgroundColor: theme.colors.primary }} />
+  );
 
   return (
     <Container>
@@ -76,7 +80,10 @@ export default function ({ route, navigation }) {
               }}
             >
               <View style={{ top: 10 }}>
-                <Text> {capitalizeAsTitle(name && characterSwap(name, "_", " "))}</Text>
+                <Text>
+                  {" "}
+                  {capitalizeAsTitle(name && characterSwap(name, "_", " "))}
+                </Text>
               </View>
               <View
                 style={{
@@ -98,27 +105,12 @@ export default function ({ route, navigation }) {
               </View>
             </View>
           </ListItem>
-          {/* <View>
-            <Icon name="edit" type="AntDesign" />
-            <Icon
-              name="delete"
-              type="AntDesign"
-              onPress={() => {
-                setCards((prev) => {
-                  const newCards = { ...prev };
-                  delete newCards[cardId];
-                  deleteCard(cardId);
-                  return newCards;
-                });
-              }}
-            />
-          </View> */}
-
           <ListItem
             style={{
               flex: 1,
               flexDirection: "row",
               justifyContent: "flex-start",
+              paddingHorizontal: 5,
             }}
           >
             {Tags}
@@ -126,6 +118,7 @@ export default function ({ route, navigation }) {
           <TabView
             navigationState={{ index, routes }}
             renderScene={renderScene}
+            renderTabBar={renderTabBar}
             onIndexChange={setIndex}
             initialLayout={initialLayout}
           />
@@ -142,7 +135,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignContent: "flex-start",
   },
-  scene: {
-    flex: 1,
+  tag: {
+    backgroundColor: theme.colors.button,
+    color: "#f2f2f2",
+    margin: 5,
+  },
+  tabContainer: {
+    margin: 20,
+    paddingHorizontal: 10,
+    lineHeight: 26,
+    fontSize: 18,
   },
 });
