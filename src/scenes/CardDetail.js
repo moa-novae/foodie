@@ -111,6 +111,7 @@ export default function ({ route, navigation }) {
               flexDirection: "row",
               justifyContent: "flex-start",
               paddingHorizontal: 5,
+              flexWrap: "wrap",
             }}
           >
             {Tags}
